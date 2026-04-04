@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Política de Privacidade | Dra. Cris Mota</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            /* --- NOVA PALETA REBRANDING: MARROM & GOLD --- */
+            --gold-primary: #cda434;
+            --gold-glow: rgba(205, 164, 52, 0.3);
+            --black-bg: #1a1410; /* Marrom Tabaco Profundo */
+            --black-card: rgba(38, 30, 24, 0.9); /* Marrom Superfície com Transparência */
+            --white: #fdfaf5; /* Creme / Off-white */
+            --text-muted: rgba(253, 250, 245, 0.65);
+            --font-heading: 'Playfair Display', serif;
+            --font-body: 'Lato', sans-serif;
+            --transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        /* Base & Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            background-color: var(--black-bg);
+            color: var(--white);
+            font-family: var(--font-body);
+            line-height: 1.8;
+            overflow-x: hidden;
+        }
+
+        /* Efeito de iluminação de fundo adaptado para Marrom */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at 10% 10%, rgba(205, 164, 52, 0.07) 0%, transparent 40%),
+                        radial-gradient(circle at 90% 90%, rgba(205, 164, 52, 0.07) 0%, transparent 40%);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Estrutura Principal */
+        .page-wrapper {
+            width: 100%;
+            min-height: 100vh;
+            padding: clamp(60px, 12vh, 140px) 5%;
+            display: flex;
+            justify-content: center;
+        }
+
+        .legal-container {
+            max-width: 850px;
+            width: 100%;
+            position: relative;
+        }
+
+        /* Link de Retorno */
+        .back-home {
+            display: inline-flex;
+            align-items: center;
+            color: var(--gold-primary);
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-size: 0.7rem;
+            margin-bottom: 40px;
+            transition: var(--transition);
+        }
+
+        .back-home:hover {
+            letter-spacing: 4px;
+            filter: brightness(1.2);
+        }
+
+        /* Header da Página */
+        .legal-header {
+            text-align: center;
+            margin-bottom: clamp(40px, 8vh, 80px);
+        }
+
+        .legal-header h1 {
+            font-family: var(--font-heading);
+            font-size: clamp(2.4rem, 8vw, 4.2rem);
+            font-weight: 500;
+            color: var(--white);
+            background: linear-gradient(135deg, var(--white) 30%, var(--gold-primary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 15px;
+        }
+
+        .title-divider {
+            width: 60px;
+            height: 1px;
+            background: var(--gold-primary);
+            margin: 0 auto;
+            box-shadow: 0 0 10px var(--gold-glow);
+        }
+
+        /* Card de Conteúdo */
+        .legal-content {
+            background: var(--black-card);
+            padding: clamp(30px, 7vw, 70px);
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            border-radius: 4px;
+            box-shadow: 0 50px 100px rgba(0,0,0,0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+
+        /* Seções de Texto */
+        .legal-content h2 {
+            font-family: var(--font-heading);
+            color: var(--gold-primary);
+            font-size: clamp(1.4rem, 4vw, 1.8rem);
+            margin: 45px 0 20px;
+            font-weight: 400;
+            letter-spacing: 1px;
+        }
+
+        .legal-content h2:first-of-type {
+            margin-top: 0;
+        }
+
+        .legal-content p {
+            color: var(--text-muted);
+            font-size: clamp(1rem, 2.5vw, 1.12rem);
+            margin-bottom: 25px;
+            font-weight: 300;
+            text-align: justify;
+            hyphens: auto;
+        }
+
+        /* Footer sutil */
+        .legal-footer {
+            margin-top: 100px;
+            text-align: center;
+            padding: 40px 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .legal-footer p {
+            font-size: 0.8rem;
+            color: rgba(253, 250, 245, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* Cursor Custom (Desktop) */
+        @media (pointer: fine) {
+            .cursor {
+                width: 8px; height: 8px; background: var(--gold-primary);
+                position: fixed; border-radius: 50%; pointer-events: none; z-index: 9999;
+                box-shadow: 0 0 15px var(--gold-primary);
+            }
+        }
+
+        /* Responsividade Mobile */
+        @media (max-width: 768px) {
+            .page-wrapper { padding: 60px 20px; }
+            .legal-content { 
+                padding: 0; 
+                background: transparent; 
+                border: none; 
+                box-shadow: none; 
+                backdrop-filter: none;
+            }
+            .legal-content p { text-align: left; }
+            .legal-header h1 { line-height: 1.1; }
+        }
+
+        /* Scrollbar Personalizada */
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: var(--black-bg); }
+        ::-webkit-scrollbar-thumb { background: var(--gold-primary); border-radius: 10px; }
+    </style>
+</head>
+<body>
+
+    <div class="cursor"></div>
+
+    <div class="page-wrapper">
+        <div class="legal-container">
+            
+            <a href="index.html" class="back-home">Voltar para o Início</a>
+            
+            <header class="legal-header">
+                <h1>Política de Privacidade</h1>
+                <div class="title-divider"></div>
+            </header>
+
+            <main class="legal-content">
+                <p>A sua privacidade é de extrema importância para nós. É política da <strong>Dra. Cris Mota</strong> respeitar a sua privacidade e garantir a proteção absoluta de qualquer dado pessoal que possamos coletar durante sua interação em nosso site.</p>
+
+                <h2>Coleta de Informações</h2>
+                <p>Solicitamos informações pessoais — como nome e contato — apenas quando estritamente necessário para fornecer um serviço de excelência, como o agendamento de protocolos exclusivos ou consultoria via WhatsApp.</p>
+
+                <h2>Uso e Segurança de Dados</h2>
+                <p>Seus dados são processados com o mais alto rigor de segurança. Não compartilhamos informações de identificação pessoal publicamente ou com terceiros, exceto por obrigatoriedade legal. No ambiente clínico, os dados de saúde são protegidos pelo sigilo profissional inabalável.</p>
+
+                <h2>Cookies e Experiência</h2>
+                <p>Este site utiliza cookies de performance para analisar como nossos visitantes interagem com o conteúdo, permitindo que possamos refinar e personalizar sua experiência premium continuamente.</p>
+
+                <h2>Compromisso do Usuário</h2>
+                <p>Ao navegar em nossa plataforma, o usuário se compromete a utilizar as informações de forma íntegra e respeitosa, preservando os direitos de propriedade intelectual da marca Dra. Cris Mota.</p>
+            </main>
+
+            <footer class="legal-footer">
+                <p>&copy; 2026 Dra. Cris Mota. Excelência e Privacidade.</p>
+            </footer>
+        </div>
+    </div>
+
+    <script>
+        // Movimentação do cursor premium
+        const cursor = document.querySelector('.cursor');
+        if(cursor) {
+            document.addEventListener('mousemove', e => {
+                cursor.style.left = e.clientX + 'px';
+                cursor.style.top = e.clientY + 'px';
+            });
+        }
+    </script>
+</body>
+</html>

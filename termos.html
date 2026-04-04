@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Termos de Uso | Dra. Cris Mota</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            /* --- NOVA PALETA REBRANDING: MARROM & GOLD --- */
+            --gold-primary: #cda434;
+            --gold-soft: #aa8928;
+            --black-bg: #1a1410; /* Marrom Tabaco Profundo */
+            --black-card: rgba(38, 30, 24, 0.8); /* Marrom Superfície */
+            --white: #fdfaf5; /* Creme / Off-white */
+            --text-muted: rgba(253, 250, 245, 0.6);
+            --line-color: rgba(205, 164, 52, 0.15);
+            --font-heading: 'Playfair Display', serif;
+            --font-body: 'Lato', sans-serif;
+            --transition: all 0.5s cubic-bezier(0.2, 1, 0.3, 1);
+        }
+
+        /* Reset & Base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            background-color: var(--black-bg);
+            color: var(--white);
+            font-family: var(--font-body);
+            line-height: 1.8;
+            overflow-x: hidden;
+        }
+
+        /* Background Glossy Effect adaptado para tons quentes */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at 50% -20%, rgba(205, 164, 52, 0.1) 0%, transparent 50%);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Layout Container */
+        .legal-wrapper {
+            width: 100%;
+            min-height: 100vh;
+            padding: clamp(60px, 10vh, 120px) 5%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .legal-container {
+            max-width: 850px;
+            width: 100%;
+            position: relative;
+        }
+
+        /* Back Button */
+        .back-home {
+            display: inline-flex;
+            align-items: center;
+            color: var(--gold-primary);
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-size: 0.75rem;
+            margin-bottom: 50px;
+            transition: var(--transition);
+            opacity: 0.8;
+        }
+
+        .back-home::before {
+            content: '←';
+            margin-right: 10px;
+            transition: var(--transition);
+        }
+
+        .back-home:hover {
+            opacity: 1;
+            letter-spacing: 4px;
+        }
+
+        .back-home:hover::before {
+            transform: translateX(-5px);
+        }
+
+        /* Typography */
+        .legal-header {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .legal-header h1 {
+            font-family: var(--font-heading);
+            font-size: clamp(2.5rem, 8vw, 4.5rem);
+            font-weight: 500;
+            background: linear-gradient(to right, var(--white), var(--gold-primary), var(--white));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-size: 200% auto;
+            animation: shine 4s linear infinite;
+        }
+
+        @keyframes shine {
+            to { background-position: 200% center; }
+        }
+
+        /* Content Card */
+        .legal-content {
+            background: var(--black-card);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: clamp(30px, 8vw, 70px);
+            border: 1px solid var(--line-color);
+            border-radius: 4px;
+            box-shadow: 0 40px 100px rgba(0,0,0,0.5);
+        }
+
+        .legal-content h2 {
+            font-family: var(--font-heading);
+            color: var(--gold-primary);
+            font-size: clamp(1.4rem, 4vw, 1.9rem);
+            margin: 50px 0 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        /* Numero dourado sutil antes do H2 */
+        .legal-content h2::before {
+            content: '';
+            width: 20px;
+            height: 1px;
+            background: var(--gold-primary);
+            display: inline-block;
+        }
+
+        .legal-content p, .legal-content li {
+            color: var(--text-muted);
+            font-size: clamp(1rem, 2.5vw, 1.15rem);
+            margin-bottom: 25px;
+            font-weight: 300;
+        }
+
+        /* Footer */
+        .legal-footer {
+            margin-top: 80px;
+            text-align: center;
+            padding-bottom: 60px;
+            border-top: 1px solid var(--line-color);
+            padding-top: 40px;
+            width: 100%;
+        }
+
+        .legal-footer p {
+            font-size: 0.8rem;
+            color: rgba(253, 250, 245, 0.3);
+            letter-spacing: 1px;
+        }
+
+        /* Cursor Custom (Desktop Only) */
+        @media (pointer: fine) {
+            .cursor {
+                width: 10px; height: 10px; background: var(--gold-primary);
+                position: fixed; border-radius: 50%; pointer-events: none; z-index: 9999;
+                box-shadow: 0 0 15px var(--gold-primary);
+            }
+        }
+
+        /* Scrollbar Premium */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: var(--black-bg); }
+        ::-webkit-scrollbar-thumb { background: var(--gold-soft); border-radius: 10px; }
+
+        /* Responsividade para Tablets e Celulares */
+        @media (max-width: 768px) {
+            .legal-header { margin-bottom: 40px; }
+            .legal-content { border: none; background: transparent; padding: 0; }
+            .back-home { margin-bottom: 30px; }
+            .legal-content h2::before { width: 10px; }
+        }
+
+        /* Ajustes para navegadores antigos ou sem suporte a clamp */
+        @supports not (font-size: clamp(1rem, 1vw, 1rem)) {
+            .legal-header h1 { font-size: 3.5rem; }
+            .legal-content p { font-size: 1.1rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="cursor"></div>
+
+    <div class="legal-wrapper">
+        <div class="legal-container">
+            
+            <a href="index.html" class="back-home">Voltar para o Início</a>
+            
+            <header class="legal-header">
+                <h1>Termos de Uso</h1>
+            </header>
+
+            <main class="legal-content">
+                <p>Bem-vindo ao portal oficial da Dra. Cris Mota. Ao acessar este site, você concorda em cumprir estes termos de serviço, todas as leis e regulamentos aplicáveis ​​e concorda que é responsável pelo cumprimento de todas as leis locais aplicáveis.</p>
+
+                <h2>Uso de Licença</h2>
+                <p>É concedida permissão para baixar temporariamente uma cópia dos materiais apenas para visualização transitória pessoal e não comercial. Esta é a concessão de uma licença, não uma transferência de título.</p>
+
+                <h2>Isenção de Responsabilidade</h2>
+                <p>Os materiais no site da Dra. Cris Mota são fornecidos 'como estão'. Não oferecemos garantias implícitas de comercialização ou adequação a um fim específico.</p>
+
+                <h2>Limitações</h2>
+                <p>Em nenhum caso a Dra. Cris Mota será responsável por danos decorrentes do uso ou da incapacidade de usar os materiais, mesmo que notificado verbalmente da possibilidade de tais danos.</p>
+
+                <h2>Precisão dos Materiais</h2>
+                <p>Os materiais exibidos podem incluir erros técnicos, tipográficos ou fotográficos. Não garantimos que qualquer material em nosso site seja preciso, completo ou atual.</p>
+            </main>
+
+            <footer class="legal-footer">
+                <p>&copy; 2026 Dra. Cris Mota — Excelência em Estética. Todos os direitos reservados.</p>
+            </footer>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('mousemove', e => {
+            const cursor = document.querySelector('.cursor');
+            if(cursor) {
+                cursor.style.left = e.clientX + 'px';
+                cursor.style.top = e.clientY + 'px';
+            }
+        });
+    </script>
+</body>
+</html>

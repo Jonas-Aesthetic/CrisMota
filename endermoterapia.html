@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Endermoterapia | Cris Mota</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;1,300&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet">
+<style>
+:root{--gold:#c9a96e;--gold-light:#e8d5a3;--gold-dark:#8b6914;--bg:#0f0a07;--bg2:#160e0a;--bg3:#1d1209;--bgc:#1a110c;--text:#f0e8d8;--muted:rgba(240,232,216,.5);--border:rgba(201,169,110,.14);--bh:rgba(201,169,110,.35)}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Lato',sans-serif;font-weight:300;overflow-x:hidden;cursor:none}
+.cur-d{position:fixed;width:6px;height:6px;background:var(--gold);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%)}
+.cur-r{position:fixed;width:36px;height:36px;border:1px solid rgba(201,169,110,.45);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .3s,height .3s,border-color .3s}
+body:has(a:hover) .cur-r{width:56px;height:56px;border-color:rgba(201,169,110,.7)}
+#prog{position:fixed;top:0;left:0;height:2px;background:linear-gradient(90deg,var(--gold-dark),var(--gold),var(--gold-light));z-index:9997;width:0;transition:width .08s}
+.back-nav{position:fixed;top:28px;left:32px;z-index:990}
+.back-btn{display:inline-flex;align-items:center;gap:9px;color:var(--gold);text-decoration:none;font-size:10px;letter-spacing:.25em;text-transform:uppercase;font-weight:700;background:rgba(15,10,7,.88);padding:11px 22px;border:1px solid var(--border);backdrop-filter:blur(20px);transition:all .3s}
+.back-btn:hover{border-color:var(--bh);color:var(--gold-light)}
+
+/* HERO — cinematic full */
+.hero{min-height:100vh;position:relative;overflow:hidden;display:flex;align-items:center}
+.hero-bg-img{position:absolute;inset:0;background:url('img/endermo.jpg') center/cover no-repeat;filter:saturate(.55) contrast(1.05);animation:zoomIn 2.5s ease forwards}
+@keyframes zoomIn{from{transform:scale(1.06)}to{transform:scale(1)}}
+.hero-ov1{position:absolute;inset:0;background:linear-gradient(105deg,rgba(15,10,7,.97) 45%,rgba(15,10,7,.5) 75%,rgba(15,10,7,.2) 100%)}
+.hero-ov2{position:absolute;bottom:0;left:0;right:0;height:250px;background:linear-gradient(0,var(--bg),transparent)}
+
+/* vacuum pulse rings */
+.vac-rings{position:absolute;right:12%;top:50%;transform:translateY(-50%);pointer-events:none}
+.vr{position:absolute;border-radius:50%;border:1px solid rgba(201,169,110,.1);animation:vrPulse 4s ease-out infinite}
+.vr:nth-child(1){width:100px;height:100px;top:-50px;left:-50px;animation-delay:0s}
+.vr:nth-child(2){width:240px;height:240px;top:-120px;left:-120px;animation-delay:.8s}
+.vr:nth-child(3){width:420px;height:420px;top:-210px;left:-210px;animation-delay:1.6s}
+.vr:nth-child(4){width:640px;height:640px;top:-320px;left:-320px;animation-delay:2.4s}
+@keyframes vrPulse{0%{opacity:.7;transform:scale(.88)}100%{opacity:0;transform:scale(1.08)}}
+
+.hero-content{position:relative;z-index:2;max-width:680px;padding:130px 64px 80px}
+.eyebrow{display:flex;align-items:center;gap:14px;margin-bottom:36px;animation:su .8s .2s both}
+.eyebrow-bar{width:30px;height:1px;background:var(--gold)}
+.eyebrow-txt{font-size:10px;letter-spacing:.4em;text-transform:uppercase;color:var(--gold);font-weight:700}
+.h1{font-family:'Playfair Display',serif;font-size:clamp(54px,7vw,96px);font-weight:700;line-height:.9;animation:su .9s .4s both}
+.h1-italic{display:block;font-style:italic;font-weight:400;color:var(--gold);font-size:.75em;margin-top:8px}
+.hero-sub{font-size:16px;line-height:1.88;color:var(--muted);max-width:500px;margin:28px 0 44px;animation:su .9s .6s both}
+.hero-sub strong{color:var(--text);font-weight:400}
+.hero-result-pill{display:inline-flex;align-items:center;gap:20px;border:1px solid var(--border);padding:20px 30px;margin-bottom:40px;animation:su .9s .8s both;background:rgba(201,169,110,.04)}
+.hrp-n{font-family:'Playfair Display',serif;font-size:32px;color:var(--gold);line-height:1}
+.hrp-t{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);max-width:130px;line-height:1.4}
+.hrp-div{width:1px;height:44px;background:var(--border)}
+.cta-row{display:flex;align-items:center;gap:20px;flex-wrap:wrap;animation:su .9s 1s both}
+.btn-g{display:inline-flex;align-items:center;gap:12px;background:linear-gradient(135deg,#c9a96e,#8b6914);color:#0f0a07;font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;padding:17px 34px;text-decoration:none;transition:all .35s;position:relative;overflow:hidden}
+.btn-g::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,#e8d5a3,#c9a96e);opacity:0;transition:opacity .3s}
+.btn-g:hover::after{opacity:1}
+.btn-g:hover{transform:translateY(-2px);box-shadow:0 14px 44px rgba(201,169,110,.32)}
+.btn-g span,.btn-g i{position:relative;z-index:1}
+.btn-txt{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);text-decoration:none;display:flex;align-items:center;gap:8px;transition:color .3s}
+.btn-txt:hover{color:var(--gold)}
+@keyframes su{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+
+/* MARQUEE */
+.mq{border-top:1px solid var(--border);border-bottom:1px solid var(--border);overflow:hidden;padding:18px 0;background:var(--bg2)}
+.mq-track{display:flex;width:max-content;animation:mq 22s linear infinite}
+.mq-item{display:flex;align-items:center;gap:14px;padding:0 36px;white-space:nowrap;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);opacity:.6}
+.mq-item i{font-size:7px}
+@keyframes mq{to{transform:translateX(-50%)}}
+
+/* STORY */
+.story{padding:110px 64px;max-width:1280px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:90px;align-items:center}
+.story-over{font-size:10px;letter-spacing:.35em;text-transform:uppercase;color:var(--gold);margin-bottom:18px;display:flex;align-items:center;gap:12px}
+.story-over::before{content:'';width:22px;height:1px;background:var(--gold)}
+.story-h{font-family:'Playfair Display',serif;font-size:clamp(26px,3.5vw,44px);font-weight:500;line-height:1.15;margin-bottom:24px}
+.story-h em{font-style:italic;color:var(--gold)}
+.story-p{font-size:14px;line-height:1.95;color:var(--muted);margin-bottom:18px}
+.story-p strong{color:var(--text);font-weight:400}
+.story-vis{position:relative}
+.s-main{width:100%;aspect-ratio:3/4;object-fit:cover;filter:saturate(.65) contrast(1.08)}
+.s-acc{position:absolute;bottom:-32px;left:-32px;width:48%;aspect-ratio:1;object-fit:cover;border:4px solid var(--bg);filter:saturate(.6)}
+.s-badge{position:absolute;top:28px;right:-28px;background:var(--bgc);border:1px solid var(--border);padding:20px 24px;text-align:center}
+.s-badge-n{font-family:'Playfair Display',serif;font-size:32px;color:var(--gold);line-height:1}
+.s-badge-l{font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-top:4px}
+
+/* DUAL ACTION */
+.dual{background:var(--bg2);padding:110px 64px;border-top:1px solid var(--border)}
+.dual-in{max-width:1280px;margin:0 auto}
+.dual-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-top:60px}
+.dc{background:var(--bgc);border:1px solid var(--border);padding:52px 44px;position:relative;overflow:hidden;transition:all .5s cubic-bezier(.25,.46,.45,.94)}
+.dc::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:0;transition:opacity .4s}
+.dc::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at bottom left,rgba(201,169,110,.05) 0%,transparent 60%);opacity:0;transition:opacity .5s}
+.dc:hover{transform:translateY(-8px);border-color:var(--bh);box-shadow:0 40px 90px rgba(0,0,0,.5)}
+.dc:hover::before,.dc:hover::after{opacity:1}
+.dc-label{font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:20px;opacity:.7}
+.dc-h{font-family:'Playfair Display',serif;font-size:26px;color:var(--gold-light);margin-bottom:8px}
+.dc-sub{font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:28px}
+.dc-list{list-style:none}
+.dc-list li{display:flex;gap:14px;align-items:flex-start;padding:14px 0;border-bottom:1px solid var(--border);font-size:13px;line-height:1.6;color:var(--muted);transition:color .3s}
+.dc-list li:hover{color:var(--text)}
+.dc-list li i{color:var(--gold);font-size:10px;margin-top:4px;flex-shrink:0}
+.dc-n{position:absolute;bottom:20px;right:28px;font-family:'Playfair Display',serif;font-size:72px;color:rgba(201,169,110,.05);line-height:1;transition:color .5s}
+.dc:hover .dc-n{color:rgba(201,169,110,.12)}
+
+/* TECHNIQUE SECTION */
+.tech{padding:110px 64px;max-width:1280px;margin:0 auto}
+.tech-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;margin-top:60px;align-items:start}
+.tech-vis{position:relative}
+.tech-img{width:100%;aspect-ratio:4/5;object-fit:cover;filter:saturate(.65) contrast(1.1)}
+.tech-img-caption{position:absolute;bottom:0;left:0;right:0;padding:28px 32px;background:linear-gradient(0,rgba(15,10,7,.95),transparent)}
+.tech-cap-n{font-family:'Playfair Display',serif;font-size:36px;color:var(--gold);line-height:1}
+.tech-cap-l{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-top:4px}
+.tech-steps{display:flex;flex-direction:column;gap:0}
+.ts{display:flex;gap:24px;padding-bottom:36px;position:relative}
+.ts:last-child{padding-bottom:0}
+.ts-left{display:flex;flex-direction:column;align-items:center;flex-shrink:0}
+.ts-dot{width:44px;height:44px;border:1px solid var(--border);background:var(--bgc);display:flex;align-items:center;justify-content:center;z-index:1;transition:all .4s}
+.ts:hover .ts-dot{border-color:var(--gold);background:rgba(201,169,110,.07)}
+.ts-dot i{color:var(--muted);font-size:12px;transition:color .4s}
+.ts:hover .ts-dot i{color:var(--gold)}
+.ts-line{width:1px;flex:1;background:var(--border)}
+.ts:last-child .ts-line{display:none}
+.ts-body{padding-top:8px}
+.ts-step{font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:6px;opacity:.7}
+.ts-ti{font-family:'Playfair Display',serif;font-size:18px;margin-bottom:8px}
+.ts-tx{font-size:13px;line-height:1.85;color:var(--muted)}
+
+/* RESULTS STRIP */
+.rstrip{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.rs-item{padding:48px 36px;text-align:center;border-right:1px solid var(--border);position:relative;overflow:hidden;transition:background .4s}
+.rs-item:last-child{border-right:none}
+.rs-item:hover{background:var(--bg2)}
+.rs-n{font-family:'Playfair Display',serif;font-size:42px;color:var(--gold);line-height:1;margin-bottom:8px}
+.rs-l{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+
+/* PROOF */
+.proof{background:var(--bg2);padding:100px 64px;border-top:1px solid var(--border)}
+.proof-in{max-width:1280px;margin:0 auto}
+.proof-feature{display:grid;grid-template-columns:1.2fr 1fr;gap:60px;align-items:start;margin-top:60px}
+.pf-quote{border-left:2px solid var(--gold);padding:32px 36px;background:rgba(201,169,110,.03);margin-bottom:24px}
+.pf-qt{font-family:'Playfair Display',serif;font-size:22px;font-style:italic;line-height:1.55;margin-bottom:16px}
+.pf-qa{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold)}
+.proof-cards{display:flex;flex-direction:column;gap:2px}
+.pc-s{background:var(--bgc);border:1px solid var(--border);padding:28px 26px;transition:all .4s}
+.pc-s:hover{border-color:var(--bh)}
+.pc-stars{color:var(--gold);font-size:10px;letter-spacing:3px;margin-bottom:12px}
+.pc-t{font-size:12px;line-height:1.8;color:var(--muted);font-style:italic;margin-bottom:16px}
+.pc-auth{display:flex;align-items:center;gap:10px}
+.pc-av{width:34px;height:34px;border-radius:50%;border:1px solid var(--border);background:var(--bg3);display:flex;align-items:center;justify-content:center;color:var(--gold);font-family:'Playfair Display',serif;font-size:13px;flex-shrink:0}
+.pc-name{font-size:11px;font-weight:700;color:var(--text)}
+.pc-det{font-size:9px;color:var(--muted);margin-top:1px}
+
+/* COMBO */
+.combo{background:linear-gradient(135deg,var(--bg3),#241508);padding:80px 64px;border-top:1px solid var(--border)}
+.combo-in{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+.over{font-size:10px;letter-spacing:.35em;text-transform:uppercase;color:var(--gold);margin-bottom:14px;display:flex;align-items:center;gap:12px}
+.over::before{content:'';width:22px;height:1px;background:var(--gold)}
+.sec-h{font-family:'Playfair Display',serif;font-size:clamp(26px,3.5vw,44px);font-weight:500;line-height:1.15}
+.sec-h em{font-style:italic;color:var(--gold)}
+.combo-p{font-size:14px;line-height:1.9;color:var(--muted);margin:18px 0 28px}
+.combo-cards-v{display:flex;flex-direction:column;gap:2px}
+.cc{background:var(--bgc);border:1px solid var(--border);padding:22px 26px;display:flex;align-items:center;gap:18px;transition:all .4s}
+.cc:hover{border-color:var(--bh);background:rgba(201,169,110,.04)}
+.cc-ico{width:38px;height:38px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .4s}
+.cc:hover .cc-ico{border-color:var(--gold)}
+.cc-ico i{color:var(--gold);font-size:13px}
+.cc-t{font-family:'Playfair Display',serif;font-size:15px;color:var(--gold-light);margin-bottom:3px}
+.cc-p{font-size:11px;color:var(--muted)}
+
+/* URGENCY */
+.urg{background:var(--bg3);padding:60px 64px;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.urg-in{max-width:1280px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:40px;flex-wrap:wrap}
+.urg-tag{font-size:9px;letter-spacing:.35em;text-transform:uppercase;color:var(--gold);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.urg-pulse{width:7px;height:7px;border-radius:50%;background:#dc3;animation:pulse 1.4s ease-in-out infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(220,200,60,.4)}50%{box-shadow:0 0 0 8px rgba(220,200,60,0)}}
+.urg-h{font-family:'Playfair Display',serif;font-size:clamp(22px,3vw,34px);line-height:1.2}
+.urg-h em{font-style:italic;color:var(--gold)}
+.urg-slots-n{font-family:'Playfair Display',serif;font-size:52px;color:var(--gold);line-height:1;text-align:center}
+.urg-slots-l{font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);text-align:center}
+
+/* CTA FINAL */
+.cta-fin{min-height:68vh;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;padding:80px 64px}
+.cta-bg{position:absolute;inset:0;background:url('img/endermo.jpg') center/cover no-repeat;opacity:.05;filter:saturate(.2)}
+.cta-ov{position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(201,169,110,.04) 0%,var(--bg) 68%)}
+.cta-c{position:relative;z-index:2;text-align:center;max-width:660px}
+.cta-ey{font-size:10px;letter-spacing:.35em;text-transform:uppercase;color:var(--gold);margin-bottom:22px;display:block}
+.cta-h{font-family:'Playfair Display',serif;font-size:clamp(36px,5.5vw,70px);font-weight:600;line-height:.95;margin-bottom:8px}
+.cta-hi{display:block;font-style:italic;font-weight:400;color:var(--gold);font-size:.68em}
+.cta-sub{font-size:15px;line-height:1.82;color:var(--muted);max-width:500px;margin:24px auto 44px}
+.cta-grp{display:flex;align-items:center;justify-content:center;gap:18px;flex-wrap:wrap}
+.cta-note{font-size:11px;color:var(--muted);margin-top:22px;display:flex;align-items:center;justify-content:center;gap:8px}
+.cta-note i{color:var(--gold);font-size:10px}
+
+/* FOOTER */
+.pf{border-top:1px solid var(--border);padding:28px 64px;display:flex;align-items:center;justify-content:space-between}
+.pf-logo{font-family:'Playfair Display',serif;font-size:17px;color:var(--gold);letter-spacing:.15em}
+.pf-nav{display:flex;gap:28px}
+.pf-nav a{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .3s}
+.pf-nav a:hover{color:var(--gold)}
+
+/* REVEAL */
+.rv{opacity:0;transform:translateY(36px);transition:opacity .9s cubic-bezier(.25,.46,.45,.94),transform .9s cubic-bezier(.25,.46,.45,.94)}
+.rv.on{opacity:1;transform:none}
+.rl{opacity:0;transform:translateX(-44px);transition:opacity .9s ease,transform .9s ease}
+.rl.on{opacity:1;transform:none}
+.rr{opacity:0;transform:translateX(44px);transition:opacity .9s ease,transform .9s ease}
+.rr.on{opacity:1;transform:none}
+.d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}.d4{transition-delay:.4s}
+
+/* RESPONSIVE — TABLET */
+@media(max-width:960px){
+  .hero-content{padding:110px 28px 60px;max-width:100%}
+  .vac-rings{display:none}
+  .story{grid-template-columns:1fr;padding:80px 28px;gap:50px}
+  .s-acc,.s-badge{display:none}
+  .dual{padding:80px 28px}
+  .dual-grid{grid-template-columns:1fr}
+  .tech{padding:80px 28px}
+  .tech-grid{grid-template-columns:1fr}
+  .rstrip{grid-template-columns:1fr 1fr}
+  .rs-item{border-right:none;border-bottom:1px solid var(--border)}
+  .proof{padding:80px 28px}
+  .proof-feature{grid-template-columns:1fr}
+  .combo{padding:60px 28px}
+  .combo-in{grid-template-columns:1fr}
+  .urg{padding:48px 28px}
+  .urg-in{flex-direction:column;text-align:center;align-items:center}
+  .urg-tag{justify-content:center}
+  .cta-fin{padding:80px 28px}
+  .pf{padding:24px 28px;flex-direction:column;gap:16px;text-align:center}
+}
+
+/* RESPONSIVE — MOBILE */
+@media(max-width:600px){
+  /* Cursor invisível em touch */
+  .cur-d,.cur-r{display:none}
+  body{cursor:auto}
+
+  /* Back nav */
+  .back-nav{top:16px;left:16px}
+  .back-btn{padding:9px 16px;font-size:9px}
+
+  /* HERO */
+  .hero{min-height:auto}
+  .hero-content{padding:80px 20px 44px;max-width:100%}
+  .vac-rings{display:none}
+  .h1{font-size:clamp(38px,13vw,62px);line-height:.93}
+  .h1-italic{margin-top:4px}
+  .eyebrow{margin-bottom:22px}
+  .eyebrow-txt{font-size:9px;letter-spacing:.25em}
+  .hero-sub{font-size:14px;line-height:1.75;margin:18px 0 28px;max-width:100%}
+  .hero-result-pill{flex-wrap:wrap;gap:14px;padding:16px 20px;margin-bottom:28px;width:100%;box-sizing:border-box}
+  .hrp-n{font-size:26px}
+  .hrp-div{display:none}
+  .cta-row{flex-direction:column;align-items:stretch;gap:12px}
+  .btn-g{justify-content:center;padding:15px 24px;font-size:10px;letter-spacing:.15em}
+  .btn-txt{justify-content:center}
+
+  /* MARQUEE */
+  .mq{padding:14px 0}
+  .mq-item{padding:0 20px;font-size:9px}
+
+  /* STORY */
+  .story{grid-template-columns:1fr;padding:52px 20px;gap:32px}
+  .s-acc,.s-badge{display:none}
+  .story-h{font-size:clamp(22px,7vw,34px)}
+  .story-p{font-size:13px}
+
+  /* DUAL ACTION */
+  .dual{padding:52px 20px}
+  .dual-in .sec-h{font-size:clamp(22px,7vw,34px)}
+  .dual-grid{grid-template-columns:1fr;gap:2px}
+  .dc{padding:36px 28px}
+  .dc-h{font-size:22px}
+  .dc-list li{font-size:12px;padding:12px 0}
+
+  /* RESULTS STRIP */
+  .rstrip{grid-template-columns:1fr 1fr}
+  .rs-item{border-right:none;border-bottom:1px solid var(--border);padding:32px 20px}
+  .rs-n{font-size:34px}
+  .rs-l{font-size:9px}
+
+  /* TECHNIQUE */
+  .tech{padding:52px 20px}
+  .tech-grid{grid-template-columns:1fr;gap:36px}
+  .tech-img{aspect-ratio:16/9}
+  .ts{gap:16px;padding-bottom:28px}
+  .ts-dot{width:38px;height:38px}
+  .ts-ti{font-size:16px}
+  .ts-tx{font-size:12px}
+
+  /* PROOF */
+  .proof{padding:52px 20px}
+  .proof-feature{grid-template-columns:1fr;gap:32px}
+  .pf-quote{padding:22px 24px;margin-bottom:20px}
+  .pf-qt{font-size:18px}
+  .proof-cards{gap:2px}
+  .pc-s{padding:24px 20px}
+  .pc-t{font-size:12px}
+
+  /* COMBO */
+  .combo{padding:48px 20px}
+  .combo-in{grid-template-columns:1fr;gap:32px}
+  .combo-p{font-size:13px}
+  .cc{padding:18px 20px;gap:14px}
+  .cc-t{font-size:14px}
+
+  /* URGENCY */
+  .urg{padding:40px 20px}
+  .urg-in{flex-direction:column;text-align:center;gap:28px;align-items:center}
+  .urg-tag{justify-content:center}
+  .urg-h{font-size:clamp(20px,6vw,28px)}
+  .urg-slots-n{font-size:44px}
+  .urg-in > div:last-child{flex-direction:column;align-items:center;width:100%}
+  .urg-in .btn-g{width:100%;justify-content:center}
+
+  /* CTA FINAL */
+  .cta-fin{min-height:auto;padding:64px 20px}
+  .cta-h{font-size:clamp(32px,10vw,54px)}
+  .cta-sub{font-size:14px}
+  .cta-grp{flex-direction:column;align-items:stretch;gap:12px}
+  .cta-grp .btn-g{justify-content:center}
+  .cta-grp .btn-txt{justify-content:center}
+  .cta-note{flex-wrap:wrap;text-align:center;gap:6px;font-size:10px}
+
+  /* FOOTER */
+  .pf{padding:20px;flex-direction:column;gap:14px;text-align:center}
+  .pf-nav{flex-wrap:wrap;justify-content:center;gap:12px 18px}
+  .pf-nav a{font-size:9px}
+  .pf-logo{font-size:15px}
+}
+</style>
+</head>
+<body>
+<div class="cur-d" id="cd"></div>
+<div class="cur-r" id="cr"></div>
+<div id="prog"></div>
+
+<nav class="back-nav">
+  <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i> Voltar</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg-img"></div>
+  <div class="hero-ov1"></div>
+  <div class="hero-ov2"></div>
+  <div class="vac-rings"><div class="vr"></div><div class="vr"></div><div class="vr"></div><div class="vr"></div></div>
+  <div class="hero-content">
+    <div class="eyebrow"><div class="eyebrow-bar"></div><span class="eyebrow-txt">Vacuoterapia de Alta Performance</span></div>
+    <h1 class="h1">Ender<span class="h1-italic">moterapia</span></h1>
+    <p class="hero-sub">A celulite não é estética. É uma fibrose — e precisa ser tratada como tal. <strong>A Endermoterapia age exatamente onde nenhuma dieta chega.</strong> Profundo. Preciso. Transformador.</p>
+    <div class="hero-result-pill">
+      <div><div class="hrp-n">-12cm</div><div class="hrp-t" style="font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-top:4px">Em uma única sessão</div></div>
+      <div class="hrp-div"></div>
+      <div><div class="hrp-n">3°</div><div class="hrp-t" style="font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-top:4px">Estágios de celulite tratados</div></div>
+    </div>
+    <div class="cta-row">
+      <a href="https://wa.me/5511942305469?text=Olá%20Dra.%20Cris!%20Quero%20saber%20mais%20sobre%20a%20Endermoterapia!" class="btn-g" target="_blank"><span>Eliminar minha celulite</span><i class="fab fa-whatsapp"></i></a>
+      <a href="#como-funciona" class="btn-txt">Como funciona <i class="fas fa-arrow-down"></i></a>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="mq">
+  <div class="mq-track">
+    <span class="mq-item"><i class="fas fa-circle-nodes"></i>Vacuoterapia</span><span class="mq-item"><i class="fas fa-circle-nodes"></i>Anti-Celulite</span><span class="mq-item"><i class="fas fa-circle-nodes"></i>Escultura Corporal</span><span class="mq-item"><i class="fas fa-circle-nodes"></i>Drenagem Linfática</span><span class="mq-item"><i class="fas fa-circle-nodes"></i>Definição Sublime</span><span class="mq-item"><i class="fas fa-circle-nodes"></i>Resultado na 1ª Sessão</span><span class="mq-item"><i class="fas fa-circle-nodes"></i>Vacuoterapia</span><span class="mq-item"><i class="fas fa-circle-nodes"></i>Anti-Celulite</span><span class="mq-item"><i class="fas fa-circle-nodes"></i>Escultura Corporal</span><span class="mq-item"><i class="fas fa-circle-nodes"></i>Drenagem Linfática</span><span class="mq-item"><i class="fas fa-circle-nodes"></i>Definição Sublime</span><span class="mq-item"><i class="fas fa-circle-nodes"></i>Resultado na 1ª Sessão</span>
+  </div>
+</div>
+
+<!-- STORY -->
+<section class="story" id="historia">
+  <div class="story-vis rl">
+    <div class="s-badge"><div class="s-badge-n">3°</div><div class="s-badge-l">Estágios tratados</div></div>
+    <img src="https://clinicagabrielli.com.br/wp-content/uploads/2025/11/diminuir-celulite-coxas-e-gluteos-scaled.webp" alt="Endermoterapia" class="s-main">
+  </div>
+  <div class="rr">
+    <div class="story-over">Por que a Endermoterapia?</div>
+    <h2 class="story-h">A celulite não é frescura. É uma <em>fibrose que exige tratamento real.</em></h2>
+    <p class="story-p">A celulite acontece quando fibras de colágeno rígidas aprisionam células de gordura, criando a aparência irregular que tanto incomoda. <strong>Nenhuma pomada, nenhuma dieta, nenhum exercício dissolve essa fibrose.</strong> Só a vacuoterapia mecânica da Endermoterapia consegue agir aí.</p>
+    <p class="story-p">A sucção controlada penetra nas camadas profundas do tecido, quebrando as fibras endurecidas, liberando a gordura aprisionada e ativando a drenagem linfática intensa. O resultado aparece na textura, no volume e no contorno.</p>
+    <p class="story-p"><strong>Desde a primeira sessão você vê e sente a diferença.</strong> Isso não é acaso — é a física e a fisiologia trabalhando juntas com precisão técnica.</p>
+  </div>
+</section>
+
+<!-- DUAL ACTION -->
+<section class="dual">
+  <div class="dual-in">
+    <div class="rv" style="margin-bottom:8px"><div class="over">Dupla ação</div></div>
+    <h2 class="sec-h rv" style="margin-bottom:60px">Dois problemas. <em>Um protocolo.</em></h2>
+    <div class="dual-grid">
+      <div class="dc rv d1">
+        <div class="dc-label">Ação 01</div>
+        <h3 class="dc-h">Anti-Celulite</h3>
+        <p class="dc-sub">Remodelagem do tecido fibroso</p>
+        <ul class="dc-list">
+          <li><i class="fas fa-check"></i>Quebra das fibras de colágeno rígidas que criam a "casca de laranja"</li>
+          <li><i class="fas fa-check"></i>Estimulação da renovação celular no tecido adiposo</li>
+          <li><i class="fas fa-check"></i>Melhora visível na textura da pele desde as primeiras sessões</li>
+          <li><i class="fas fa-check"></i>Eficaz nos estágios I, II e III de celulite</li>
+          <li><i class="fas fa-check"></i>Reduz inflamação local e melhora a elasticidade cutânea</li>
+        </ul>
+        <div class="dc-n">01</div>
+      </div>
+      <div class="dc rv d2">
+        <div class="dc-label">Ação 02</div>
+        <h3 class="dc-h">Escultura Corporal</h3>
+        <p class="dc-sub">Redefinição de contornos</p>
+        <ul class="dc-list">
+          <li><i class="fas fa-check"></i>Drenagem linfática profunda com eliminação de toxinas acumuladas</li>
+          <li><i class="fas fa-check"></i>Redução de medidas e volume corporal mensuráveis</li>
+          <li><i class="fas fa-check"></i>Definição de glúteos, coxas, abdômen e braços</li>
+          <li><i class="fas fa-check"></i>Firmeza e elasticidade restauradas na pele tratada</li>
+          <li><i class="fas fa-check"></i>Melhora da circulação e sensação de leveza imediata</li>
+        </ul>
+        <div class="dc-n">02</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESULTS STRIP -->
+<div class="rstrip">
+  <div class="rs-item rv"><div class="rs-n">-12cm</div><div class="rs-l">Em uma única sessão</div></div>
+  <div class="rs-item rv d1"><div class="rs-n">3°</div><div class="rs-l">Estágios de celulite</div></div>
+  <div class="rs-item rv d2"><div class="rs-n">1ª</div><div class="rs-l">Sessão já perceptível</div></div>
+  <div class="rs-item rv d3"><div class="rs-n">Zero</div><div class="rs-l">Intervenção cirúrgica</div></div>
+</div>
+
+<!-- TECHNIQUE -->
+<section class="tech" id="como-funciona">
+  <div class="over rv">A técnica</div>
+  <h2 class="sec-h rv">Como é uma sessão <em>de Endermoterapia</em></h2>
+  <div class="tech-grid">
+    <div class="tech-vis rl">
+      <img src="https://blog.bcmed.com.br/wp-content/uploads/2023/12/Adeus-celulite-Experimente-os-beneficios-da-Endermoterapia-Vibratoria-e-conquiste-clientes-4-1024x613.png" alt="Sessão de Endermoterapia" class="tech-img">
+      <div class="tech-img-caption">
+        <div class="tech-cap-n">-12cm</div>
+        <div class="tech-cap-l">Resultado de uma única sessão · Juliana N. Andrade</div>
+      </div>
+    </div>
+    <div class="tech-steps rr">
+      <div class="ts"><div class="ts-left"><div class="ts-dot"><i class="fas fa-clipboard-check"></i></div><div class="ts-line"></div></div><div class="ts-body"><div class="ts-step">Fase 01</div><h3 class="ts-ti">Avaliação e Mapeamento</h3><p class="ts-tx">A Dra. Cris Mota examina as áreas de tratamento, identifica os graus de celulite e define a intensidade de pressão e os movimentos mais eficazes para o seu caso.</p></div></div>
+      <div class="ts"><div class="ts-left"><div class="ts-dot"><i class="fas fa-circle-nodes"></i></div><div class="ts-line"></div></div><div class="ts-body"><div class="ts-step">Fase 02</div><h3 class="ts-ti">Vacuoterapia em Profundidade</h3><p class="ts-tx">A sucção mecânica é aplicada em movimentos precisos e direcionados, trabalhando as camadas profundas do tecido — dissolvendo fibras e liberando gordura aprisionada.</p></div></div>
+      <div class="ts"><div class="ts-left"><div class="ts-dot"><i class="fas fa-water"></i></div><div class="ts-line"></div></div><div class="ts-body"><div class="ts-step">Fase 03</div><h3 class="ts-ti">Drenagem e Finalização</h3><p class="ts-tx">A fase final ativa o sistema linfático para eliminar as toxinas mobilizadas. Você sai da sessão mais leve — literalmente. O inchaço reduz, o contorno aparece.</p></div></div>
+      <div class="ts"><div class="ts-left"><div class="ts-dot"><i class="fas fa-chart-line"></i></div><div class="ts-ln"></div></div><div class="ts-body"><div class="ts-step">Fase 04</div><h3 class="ts-ti">Medição e Acompanhamento</h3><p class="ts-tx">Resultados documentados em centímetros a cada sessão. Você vê a evolução com seus próprios olhos — e com a fita métrica.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PROOF -->
+<section class="proof">
+  <div class="proof-in">
+    <div class="over rv">O que dizem as pacientes</div>
+    <h2 class="sec-h rv">Não são promessas. <em>São histórias reais.</em></h2>
+    <div class="proof-feature">
+      <div class="rl">
+        <div class="pf-quote">
+          <p class="pf-qt">"Em apenas uma sessão eliminei 12 cm. Saí de lá outra pessoa. A Dra. Cris tem um olhar clínico impressionante — ela entende o seu corpo de um jeito que ninguém mais entende."</p>
+          <span class="pf-qa">— Juliana N. Andrade · Endermoterapia · Google ✓</span>
+        </div>
+        <a href="https://wa.me/5511942305469?text=Olá%20Dra.%20Cris!%20Li%20sobre%20a%20Endermoterapia%20e%20quero%20agendar%20minha%20avaliação!" class="btn-g" target="_blank"><span>Quero esse resultado</span><i class="fab fa-whatsapp"></i></a>
+      </div>
+      <div class="proof-cards rr">
+        <div class="pc-s"><div class="pc-stars">★★★★★</div><p class="pc-t">"A Cris faz um protocolo exclusivo pra mim. Em apenas uma sessão minha estria já melhorou muito. O espaço é maravilhoso e ela atende super bem."</p><div class="pc-auth"><div class="pc-av">P</div><div><div class="pc-name">Pamela Barbosa</div><div class="pc-det">Endermoterapia · Google ✓</div></div></div></div>
+        <div class="pc-s"><div class="pc-stars">★★★★★</div><p class="pc-t">"Graças à Dra. Cris estou tendo uma gestação super tranquila. É uma excelente profissional — responde prontamente e tem um consultório lindo e moderno."</p><div class="pc-auth"><div class="pc-av">S</div><div><div class="pc-name">Sara Costa</div><div class="pc-det">Endermoterapia · Google ✓</div></div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMBO -->
+<section class="combo">
+  <div class="combo-in">
+    <div class="rv">
+      <div class="over">Potencialize</div>
+      <h2 class="sec-h">O combo que nenhuma <em>paciente quer largar</em></h2>
+      <p class="combo-p">Endermoterapia + Termoterapia: o calor ativa a lipólise e a vacuoterapia elimina a gordura mobilizada. Um protocolo duplo, resultado exponencial. É o combo mais requisitado da clínica.</p>
+      <a href="https://wa.me/5511942305469?text=Olá%20Dra.%20Cris!%20Quero%20o%20combo%20Endermoterapia%20%2B%20Termoterapia!" class="btn-g" target="_blank"><span>Quero o combo completo</span><i class="fab fa-whatsapp"></i></a>
+    </div>
+    <div class="combo-cards-v rr">
+      <div class="cc"><div class="cc-ico"><i class="fas fa-circle-nodes"></i></div><div><div class="cc-t">Endermoterapia</div><div class="cc-p">Quebra a fibrose e esculpe o contorno</div></div></div>
+      <div class="cc" style="border-color:var(--bh);background:rgba(201,169,110,.03)"><div class="cc-ico" style="border-color:var(--gold)"><i class="fas fa-plus" style="color:var(--gold)"></i></div><div><div class="cc-t" style="color:var(--gold)">Combo Exclusivo</div><div class="cc-p">O mais pedido da clínica</div></div></div>
+      <div class="cc"><div class="cc-ico"><i class="fas fa-fire-flame-curved"></i></div><div><div class="cc-t">Termoterapia</div><div class="cc-p">Ativa e libera a gordura localizada</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- URGENCY -->
+<div class="urg">
+  <div class="urg-in">
+    <div class="rl">
+      <div class="urg-tag"><div class="urg-pulse"></div>Agenda com alta procura</div>
+      <h2 class="urg-h">As vagas para avaliação <em>são limitadas por semana.</em></h2>
+    </div>
+    <div class="rr" style="display:flex;align-items:center;gap:28px;flex-wrap:wrap">
+      <div><div class="urg-slots-n">3</div><div class="urg-slots-l">Vagas esta semana</div></div>
+      <a href="https://wa.me/5511942305469?text=Olá%20Dra.%20Cris!%20Quero%20garantir%20minha%20vaga%20para%20Endermoterapia!" class="btn-g" target="_blank"><span>Garantir minha vaga agora</span><i class="fab fa-whatsapp"></i></a>
+    </div>
+  </div>
+</div>
+
+<!-- FINAL CTA -->
+<section class="cta-fin">
+  <div class="cta-bg"></div>
+  <div class="cta-ov"></div>
+  <div class="cta-c rv">
+    <span class="cta-ey">Drenagem e definição sublime</span>
+    <h2 class="cta-h">A pele lisa<span class="cta-hi">começa aqui.</span></h2>
+    <p class="cta-sub">Dê o primeiro passo para eliminar a celulite e esculpir o corpo que você merece. Uma avaliação com a Dra. Cris Mota muda o que você acredita ser possível.</p>
+    <div class="cta-grp">
+      <a href="https://wa.me/5511942305469?text=Olá%20Dra.%20Cris!%20Quero%20agendar%20minha%20avaliação%20de%20Endermoterapia!" class="btn-g" target="_blank"><span>Agendar avaliação agora</span><i class="fab fa-whatsapp"></i></a>
+      <a href="index.html" class="btn-txt">Ver outros tratamentos <i class="fas fa-arrow-right"></i></a>
+    </div>
+    <p class="cta-note"><i class="fas fa-shield-alt"></i>Avaliação personalizada &nbsp;·&nbsp; Sem compromisso &nbsp;·&nbsp; Sigilo total</p>
+  </div>
+</section>
+
+<footer class="pf">
+  <div class="pf-logo">CRIS MOTA</div>
+  <nav class="pf-nav"><a href="index.html">Início</a><a href="sculp.html">Método SCULP</a><a href="termoterapia.html">Termoterapia</a><a href="https://wa.me/5511942305469" target="_blank">WhatsApp</a></nav>
+</footer>
+
+<script>
+const cd=document.getElementById('cd'),cr=document.getElementById('cr');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cd.style.left=mx+'px';cd.style.top=my+'px'});
+(function loop(){rx+=(mx-rx)*.1;ry+=(my-ry)*.1;cr.style.left=rx+'px';cr.style.top=ry+'px';requestAnimationFrame(loop)})();
+window.addEventListener('scroll',()=>{const s=document.documentElement;document.getElementById('prog').style.width=(s.scrollTop/(s.scrollHeight-s.clientHeight)*100)+'%'});
+const obs=new IntersectionObserver(e=>e.forEach(el=>{if(el.isIntersecting)el.target.classList.add('on')}),{threshold:.07});
+document.querySelectorAll('.rv,.rl,.rr').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>

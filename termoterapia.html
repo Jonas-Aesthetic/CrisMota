@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Termoterapia | Cris Mota</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;1,300&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet">
+<style>
+:root{--gold:#c9a96e;--gold-light:#e8d5a3;--gold-dark:#8b6914;--bg:#0f0a07;--bg2:#160e0a;--bg3:#1d1209;--bgc:#1a110c;--text:#f0e8d8;--muted:rgba(240,232,216,.5);--border:rgba(201,169,110,.14);--bh:rgba(201,169,110,.35);--heat:rgba(200,90,40,.08)}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Lato',sans-serif;font-weight:300;overflow-x:hidden;cursor:none}
+.cur-d{position:fixed;width:6px;height:6px;background:var(--gold);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%)}
+.cur-r{position:fixed;width:36px;height:36px;border:1px solid rgba(201,169,110,.45);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .3s,height .3s,border-color .3s}
+body:has(a:hover) .cur-r{width:56px;height:56px;border-color:rgba(201,169,110,.7)}
+#prog{position:fixed;top:0;left:0;height:2px;background:linear-gradient(90deg,var(--gold-dark),var(--gold),var(--gold-light));z-index:9997;width:0;transition:width .08s}
+.back-nav{position:fixed;top:28px;left:32px;z-index:990}
+.back-btn{display:inline-flex;align-items:center;gap:9px;color:var(--gold);text-decoration:none;font-size:10px;letter-spacing:.25em;text-transform:uppercase;font-weight:700;background:rgba(15,10,7,.88);padding:11px 22px;border:1px solid var(--border);backdrop-filter:blur(20px);transition:all .3s}
+.back-btn:hover{border-color:var(--bh);color:var(--gold-light)}
+
+/* HERO — full viewport split */
+.hero{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;position:relative;overflow:hidden}
+.hero-l{display:flex;flex-direction:column;justify-content:center;padding:130px 64px 80px;position:relative;z-index:2}
+.hero-r{position:relative;overflow:hidden}
+.hero-img{width:100%;height:100%;object-fit:cover;filter:saturate(.75) contrast(1.08);animation:zoomIn 2s ease forwards}
+@keyframes zoomIn{from{transform:scale(1.07)}to{transform:scale(1)}}
+.hero-r::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,var(--bg) 0%,transparent 50%);z-index:1}
+.hero-r::after{content:'';position:absolute;bottom:0;left:0;right:0;height:200px;background:linear-gradient(0,var(--bg),transparent);z-index:1}
+
+/* Heat wave rings */
+.heat-rings{position:absolute;right:5%;top:50%;transform:translateY(-50%);z-index:0;pointer-events:none}
+.hr{position:absolute;border-radius:50%;border:1px solid rgba(201,169,110,.07);animation:hrExpand 3.5s ease-out infinite}
+.hr:nth-child(1){width:160px;height:160px;top:-80px;left:-80px;animation-delay:0s}
+.hr:nth-child(2){width:320px;height:320px;top:-160px;left:-160px;animation-delay:.9s}
+.hr:nth-child(3){width:500px;height:500px;top:-250px;left:-250px;animation-delay:1.8s}
+.hr:nth-child(4){width:700px;height:700px;top:-350px;left:-350px;animation-delay:2.7s}
+@keyframes hrExpand{0%{opacity:.7;transform:scale(.85)}100%{opacity:0;transform:scale(1.1)}}
+
+.eyebrow{display:flex;align-items:center;gap:14px;margin-bottom:36px;animation:su .8s .2s both}
+.eyebrow-bar{width:30px;height:1px;background:var(--gold)}
+.eyebrow-txt{font-size:10px;letter-spacing:.4em;text-transform:uppercase;color:var(--gold);font-weight:700}
+.h1{font-family:'Playfair Display',serif;font-size:clamp(52px,6.5vw,88px);font-weight:700;line-height:.92;animation:su .9s .4s both}
+.h1-italic{display:block;font-style:italic;font-weight:400;color:var(--gold);font-size:.78em;margin-top:6px}
+.hero-sub{font-size:15px;line-height:1.9;color:var(--muted);max-width:460px;margin:28px 0 44px;animation:su .9s .6s both}
+.hero-sub strong{color:var(--text);font-weight:400}
+.hero-tags{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:40px;animation:su .9s .8s both}
+.htag{border:1px solid var(--border);padding:8px 16px;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold)}
+.cta-row{display:flex;align-items:center;gap:20px;flex-wrap:wrap;animation:su .9s 1s both}
+.btn-g{display:inline-flex;align-items:center;gap:12px;background:linear-gradient(135deg,#c9a96e,#8b6914);color:#0f0a07;font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;padding:17px 34px;text-decoration:none;transition:all .35s;position:relative;overflow:hidden}
+.btn-g::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,#e8d5a3,#c9a96e);opacity:0;transition:opacity .3s}
+.btn-g:hover::after{opacity:1}
+.btn-g:hover{transform:translateY(-2px);box-shadow:0 14px 44px rgba(201,169,110,.32)}
+.btn-g span,.btn-g i{position:relative;z-index:1}
+.btn-txt{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);text-decoration:none;display:flex;align-items:center;gap:8px;transition:color .3s}
+.btn-txt:hover{color:var(--gold)}
+@keyframes su{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+
+/* MARQUEE */
+.mq{border-top:1px solid var(--border);border-bottom:1px solid var(--border);overflow:hidden;padding:18px 0;background:var(--bg2)}
+.mq-track{display:flex;width:max-content;animation:mq 22s linear infinite}
+.mq-item{display:flex;align-items:center;gap:14px;padding:0 36px;white-space:nowrap;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);opacity:.6}
+.mq-item i{font-size:7px}
+@keyframes mq{to{transform:translateX(-50%)}}
+
+/* PROBLEM SECTION */
+.problem{padding:110px 64px;max-width:1280px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:90px;align-items:center}
+.p-vis{position:relative}
+.p-img{width:100%;aspect-ratio:4/5;object-fit:cover;filter:saturate(.65) contrast(1.1)}
+.p-badge{position:absolute;bottom:-28px;right:-28px;background:var(--bgc);border:1px solid var(--border);padding:20px 24px;text-align:center}
+.p-badge-n{font-family:'Playfair Display',serif;font-size:32px;color:var(--gold);line-height:1}
+.p-badge-l{font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-top:4px}
+.p-txt{}
+.over{font-size:10px;letter-spacing:.35em;text-transform:uppercase;color:var(--gold);margin-bottom:14px;display:flex;align-items:center;gap:12px}
+.over::before{content:'';width:22px;height:1px;background:var(--gold)}
+.sec-h{font-family:'Playfair Display',serif;font-size:clamp(26px,3.5vw,44px);font-weight:500;line-height:1.15;margin-bottom:24px}
+.sec-h em{font-style:italic;color:var(--gold)}
+.sec-p{font-size:14px;line-height:1.95;color:var(--muted);margin-bottom:18px}
+.sec-p strong{color:var(--text);font-weight:400}
+
+/* MECHANISM SECTION */
+.mech{background:var(--bg2);padding:110px 64px;border-top:1px solid var(--border)}
+.mech-in{max-width:1280px;margin:0 auto}
+.mech-hdr{margin-bottom:60px}
+.mech-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}
+.mc{background:var(--bgc);border:1px solid var(--border);padding:48px 38px;position:relative;overflow:hidden;transition:all .5s cubic-bezier(.25,.46,.45,.94)}
+.mc::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:0;transition:opacity .4s}
+.mc::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at top left,var(--heat) 0%,transparent 60%);opacity:0;transition:opacity .5s}
+.mc:hover{transform:translateY(-8px);border-color:var(--bh);box-shadow:0 40px 90px rgba(0,0,0,.5)}
+.mc:hover::before,.mc:hover::after{opacity:1}
+.mc-ico{font-size:32px;color:var(--gold);margin-bottom:28px;opacity:.75;transition:opacity .4s}
+.mc:hover .mc-ico{opacity:1}
+.mc-t{font-family:'Playfair Display',serif;font-size:21px;margin-bottom:12px;color:var(--gold-light)}
+.mc-p{font-size:13px;line-height:1.85;color:var(--muted)}
+.mc-num{position:absolute;bottom:20px;right:28px;font-family:'Playfair Display',serif;font-size:64px;color:rgba(201,169,110,.05);line-height:1;transition:color .5s}
+.mc:hover .mc-num{color:rgba(201,169,110,.12)}
+
+/* RESULTS STRIP */
+.rstrip{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.rs-item{padding:48px 36px;text-align:center;border-right:1px solid var(--border);position:relative;overflow:hidden;transition:background .4s}
+.rs-item:last-child{border-right:none}
+.rs-item:hover{background:var(--bg2)}
+.rs-n{font-family:'Playfair Display',serif;font-size:42px;color:var(--gold);line-height:1;margin-bottom:8px}
+.rs-l{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+
+/* INDICATIONS */
+.ind{padding:110px 64px;max-width:1280px;margin:0 auto}
+.ind-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;margin-top:60px;align-items:start}
+.ind-list{list-style:none;display:flex;flex-direction:column;gap:0}
+.ind-list li{display:flex;gap:16px;align-items:flex-start;padding:18px 0;border-bottom:1px solid var(--border);font-size:14px;line-height:1.6;color:var(--muted);transition:color .3s}
+.ind-list li:hover{color:var(--text)}
+.ind-list li i{color:var(--gold);font-size:10px;margin-top:5px;flex-shrink:0}
+.ind-note{background:var(--bgc);border:1px solid var(--border);border-left:2px solid var(--gold);padding:28px 32px;margin-top:48px}
+.ind-note p{font-size:13px;line-height:1.85;color:var(--muted)}
+.ind-note strong{color:var(--gold)}
+.ind-cta-card{background:var(--bgc);border:1px solid var(--border);padding:40px 36px}
+.ind-cta-tag{font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.ind-cta-h{font-family:'Playfair Display',serif;font-size:24px;line-height:1.2;margin-bottom:12px}
+.ind-cta-h em{font-style:italic;color:var(--gold)}
+.ind-cta-p{font-size:13px;line-height:1.8;color:var(--muted);margin-bottom:28px}
+.ind-cta-pulse{width:7px;height:7px;border-radius:50%;background:#dc3;animation:pulse 1.4s ease-in-out infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(220,200,60,.4)}50%{box-shadow:0 0 0 8px rgba(220,200,60,0)}}
+
+/* PROOF */
+.proof{background:var(--bg2);padding:100px 64px;border-top:1px solid var(--border)}
+.proof-in{max-width:1280px;margin:0 auto}
+.proof-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:60px}
+.pc{background:var(--bgc);border:1px solid var(--border);padding:34px 30px;transition:all .4s}
+.pc:hover{border-color:var(--bh);transform:translateY(-5px)}
+.pc-stars{color:var(--gold);font-size:11px;letter-spacing:3px;margin-bottom:18px}
+.pc-t{font-size:13px;line-height:1.82;color:var(--muted);font-style:italic;margin-bottom:22px}
+.pc-auth{display:flex;align-items:center;gap:12px}
+.pc-av{width:38px;height:38px;border-radius:50%;border:1px solid var(--border);background:var(--bg3);display:flex;align-items:center;justify-content:center;color:var(--gold);font-family:'Playfair Display',serif;font-size:15px;flex-shrink:0}
+.pc-name{font-size:12px;font-weight:700;color:var(--text)}
+.pc-det{font-size:10px;color:var(--muted);margin-top:2px}
+
+/* COMBO HIGHLIGHT */
+.combo{background:linear-gradient(135deg,var(--bg3),#241508);padding:80px 64px;border-top:1px solid var(--border)}
+.combo-in{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+.combo-l .over{margin-bottom:14px}
+.combo-h{font-family:'Playfair Display',serif;font-size:clamp(26px,3.5vw,42px);line-height:1.15;margin-bottom:18px}
+.combo-h em{font-style:italic;color:var(--gold)}
+.combo-p{font-size:14px;line-height:1.9;color:var(--muted);margin-bottom:28px}
+.combo-r{display:flex;flex-direction:column;gap:2px}
+.combo-card{background:var(--bgc);border:1px solid var(--border);padding:24px 28px;display:flex;align-items:center;gap:20px;transition:all .4s}
+.combo-card:hover{border-color:var(--bh);background:rgba(201,169,110,.04)}
+.combo-card-ico{width:40px;height:40px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .4s}
+.combo-card:hover .combo-card-ico{border-color:var(--gold)}
+.combo-card-ico i{color:var(--gold);font-size:14px}
+.combo-card-t{font-family:'Playfair Display',serif;font-size:16px;color:var(--gold-light);margin-bottom:4px}
+.combo-card-p{font-size:12px;color:var(--muted)}
+
+/* URGENCY */
+.urg{background:var(--bg3);padding:60px 64px;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.urg-in{max-width:1280px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:40px;flex-wrap:wrap}
+.urg-tag{font-size:9px;letter-spacing:.35em;text-transform:uppercase;color:var(--gold);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.urg-pulse{width:7px;height:7px;border-radius:50%;background:#dc3;animation:pulse 1.4s ease-in-out infinite}
+.urg-h{font-family:'Playfair Display',serif;font-size:clamp(22px,3vw,34px);line-height:1.2}
+.urg-h em{font-style:italic;color:var(--gold)}
+.urg-slots-n{font-family:'Playfair Display',serif;font-size:52px;color:var(--gold);line-height:1;text-align:center}
+.urg-slots-l{font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);text-align:center}
+
+/* CTA FINAL */
+.cta-fin{min-height:68vh;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;padding:80px 64px}
+.cta-bg{position:absolute;inset:0;background:url('img/termo.jpg') center/cover no-repeat;opacity:.05;filter:saturate(.2)}
+.cta-ov{position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(200,90,40,.04) 0%,var(--bg) 68%)}
+.cta-c{position:relative;z-index:2;text-align:center;max-width:660px}
+.cta-ey{font-size:10px;letter-spacing:.35em;text-transform:uppercase;color:var(--gold);margin-bottom:22px;display:block}
+.cta-h{font-family:'Playfair Display',serif;font-size:clamp(36px,5.5vw,70px);font-weight:600;line-height:.95;margin-bottom:8px}
+.cta-hi{display:block;font-style:italic;font-weight:400;color:var(--gold);font-size:.68em}
+.cta-sub{font-size:15px;line-height:1.82;color:var(--muted);max-width:500px;margin:24px auto 44px}
+.cta-grp{display:flex;align-items:center;justify-content:center;gap:18px;flex-wrap:wrap}
+.cta-note{font-size:11px;color:var(--muted);margin-top:22px;display:flex;align-items:center;justify-content:center;gap:8px}
+.cta-note i{color:var(--gold);font-size:10px}
+
+/* FOOTER */
+.pf{border-top:1px solid var(--border);padding:28px 64px;display:flex;align-items:center;justify-content:space-between}
+.pf-logo{font-family:'Playfair Display',serif;font-size:17px;color:var(--gold);letter-spacing:.15em}
+.pf-nav{display:flex;gap:28px}
+.pf-nav a{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .3s}
+.pf-nav a:hover{color:var(--gold)}
+
+/* REVEAL */
+.rv{opacity:0;transform:translateY(36px);transition:opacity .9s cubic-bezier(.25,.46,.45,.94),transform .9s cubic-bezier(.25,.46,.45,.94)}
+.rv.on{opacity:1;transform:none}
+.rl{opacity:0;transform:translateX(-44px);transition:opacity .9s ease,transform .9s ease}
+.rl.on{opacity:1;transform:none}
+.rr{opacity:0;transform:translateX(44px);transition:opacity .9s ease,transform .9s ease}
+.rr.on{opacity:1;transform:none}
+.d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}.d4{transition-delay:.4s}
+
+/* RESPONSIVE — TABLET */
+@media(max-width:960px){
+  .hero{grid-template-columns:1fr}
+  .hero-r{height:60vw}
+  .hero-l{padding:110px 28px 60px}
+  .problem{grid-template-columns:1fr;padding:80px 28px;gap:50px}
+  .p-badge{display:none}
+  .mech{padding:80px 28px}
+  .mech-grid{grid-template-columns:1fr}
+  .rstrip{grid-template-columns:1fr 1fr}
+  .rs-item{border-right:none;border-bottom:1px solid var(--border)}
+  .ind{padding:80px 28px}
+  .ind-grid{grid-template-columns:1fr}
+  .proof{padding:80px 28px}
+  .proof-grid{grid-template-columns:1fr}
+  .combo{padding:60px 28px}
+  .combo-in{grid-template-columns:1fr}
+  .urg{padding:48px 28px}
+  .urg-in{flex-direction:column;text-align:center;align-items:center}
+  .urg-tag{justify-content:center}
+  .cta-fin{padding:80px 28px}
+  .pf{padding:24px 28px;flex-direction:column;gap:16px;text-align:center}
+}
+
+/* RESPONSIVE — MOBILE */
+@media(max-width:600px){
+  /* Cursor invisível em touch */
+  .cur-d,.cur-r{display:none}
+  body{cursor:auto}
+
+  /* Back nav */
+  .back-nav{top:16px;left:16px}
+  .back-btn{padding:9px 16px;font-size:9px}
+
+  /* HERO */
+  .hero{grid-template-columns:1fr;min-height:auto}
+  .hero-r{height:58vw;min-height:230px}
+  .heat-rings{display:none}
+  .hero-l{padding:80px 20px 44px}
+  .h1{font-size:clamp(40px,13vw,64px);line-height:.93}
+  .h1-italic{margin-top:4px}
+  .eyebrow{margin-bottom:22px}
+  .eyebrow-txt{font-size:9px;letter-spacing:.25em}
+  .hero-sub{font-size:14px;line-height:1.75;margin:18px 0 28px;max-width:100%}
+  .hero-tags{gap:8px;margin-bottom:28px}
+  .htag{padding:7px 12px;font-size:9px;letter-spacing:.13em}
+  .cta-row{flex-direction:column;align-items:stretch;gap:12px}
+  .btn-g{justify-content:center;padding:15px 24px;font-size:10px;letter-spacing:.15em}
+  .btn-txt{justify-content:center}
+
+  /* MARQUEE */
+  .mq{padding:14px 0}
+  .mq-item{padding:0 20px;font-size:9px}
+
+  /* PROBLEM / STORY */
+  .problem{grid-template-columns:1fr;padding:52px 20px;gap:32px}
+  .p-badge{display:none}
+  .p-img{aspect-ratio:4/3}
+  .sec-h{font-size:clamp(22px,7vw,34px)}
+  .sec-p{font-size:13px}
+
+  /* MECHANISMS */
+  .mech{padding:52px 20px}
+  .mech-hdr .sec-h{font-size:clamp(22px,7vw,34px)}
+  .mech-grid{grid-template-columns:1fr;gap:2px}
+  .mc{padding:36px 28px}
+  .mc-ico{font-size:26px;margin-bottom:20px}
+  .mc-t{font-size:18px}
+  .mc-p{font-size:13px}
+
+  /* RESULTS STRIP */
+  .rstrip{grid-template-columns:1fr 1fr}
+  .rs-item{border-right:none;border-bottom:1px solid var(--border);padding:30px 18px}
+  .rs-n{font-size:34px}
+  .rs-l{font-size:9px}
+
+  /* INDICATIONS */
+  .ind{padding:52px 20px}
+  .ind-grid{grid-template-columns:1fr;gap:36px}
+  .ind-list li{font-size:13px;gap:12px;padding:15px 0}
+  .ind-cta-card{padding:32px 28px}
+  .ind-cta-h{font-size:20px}
+  .ind-cta-p{font-size:12px}
+  .ind-cta-card .btn-g{width:100%;justify-content:center}
+  .ind-note{padding:22px 24px;margin-top:12px}
+  .ind-note p{font-size:12px}
+
+  /* PROOF */
+  .proof{padding:52px 20px}
+  .proof-grid{grid-template-columns:1fr;gap:2px}
+  .pc{padding:28px 22px}
+  .pc-t{font-size:12px}
+
+  /* COMBO */
+  .combo{padding:48px 20px}
+  .combo-in{grid-template-columns:1fr;gap:32px}
+  .combo-h{font-size:clamp(22px,7vw,34px)}
+  .combo-p{font-size:13px}
+  .combo-card{padding:20px 22px;gap:14px}
+  .combo-card-t{font-size:14px}
+  .combo-card-p{font-size:11px}
+
+  /* URGENCY */
+  .urg{padding:40px 20px}
+  .urg-in{flex-direction:column;text-align:center;gap:28px;align-items:center}
+  .urg-tag{justify-content:center}
+  .urg-h{font-size:clamp(20px,6vw,28px)}
+  .urg-slots-n{font-size:44px}
+  .urg-in > div:last-child{flex-direction:column;align-items:center;width:100%}
+  .urg-in .btn-g{width:100%;justify-content:center}
+
+  /* CTA FINAL */
+  .cta-fin{min-height:auto;padding:64px 20px}
+  .cta-h{font-size:clamp(32px,10vw,54px)}
+  .cta-sub{font-size:14px}
+  .cta-grp{flex-direction:column;align-items:stretch;gap:12px}
+  .cta-grp .btn-g{justify-content:center}
+  .cta-grp .btn-txt{justify-content:center}
+  .cta-note{flex-wrap:wrap;text-align:center;gap:6px;font-size:10px}
+
+  /* FOOTER */
+  .pf{padding:20px;flex-direction:column;gap:14px;text-align:center}
+  .pf-nav{flex-wrap:wrap;justify-content:center;gap:12px 18px}
+  .pf-nav a{font-size:9px}
+  .pf-logo{font-size:15px}
+}
+</style>
+</head>
+<body>
+<div class="cur-d" id="cd"></div>
+<div class="cur-r" id="cr"></div>
+<div id="prog"></div>
+
+<nav class="back-nav">
+  <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i> Voltar</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="heat-rings">
+    <div class="hr"></div><div class="hr"></div><div class="hr"></div><div class="hr"></div>
+  </div>
+  <div class="hero-l">
+    <div class="eyebrow"><div class="eyebrow-bar"></div><span class="eyebrow-txt">Protocolo Térmico Avançado</span></div>
+    <h1 class="h1">Termo<span class="h1-italic">terapia</span></h1>
+    <p class="hero-sub">Seu metabolismo tem um interruptor. A Termoterapia sabe exatamente onde ele está — e como ativá-lo. <strong>Queima de gordura real, desde a primeira sessão.</strong></p>
+    <div class="hero-tags">
+      <span class="htag">BioAtivação</span>
+      <span class="htag">Queima Calórica</span>
+      <span class="htag">Desintoxicação</span>
+      <span class="htag">Acelera o Metabolismo</span>
+    </div>
+    <div class="cta-row">
+      <a href="https://wa.me/5511942305469?text=Olá%20Dra.%20Cris!%20Quero%20saber%20mais%20sobre%20a%20Termoterapia!" class="btn-g" target="_blank"><span>Quero experimentar</span><i class="fab fa-whatsapp"></i></a>
+      <a href="#mecanismos" class="btn-txt">Veja como funciona <i class="fas fa-arrow-down"></i></a>
+    </div>
+  </div>
+  <div class="hero-r">
+    <img src="img/termo.jpg" alt="Termoterapia" class="hero-img">
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="mq">
+  <div class="mq-track">
+    <span class="mq-item"><i class="fas fa-fire"></i>Ativação Metabólica</span><span class="mq-item"><i class="fas fa-fire"></i>Queima de Gordura</span><span class="mq-item"><i class="fas fa-fire"></i>Desintoxicação Celular</span><span class="mq-item"><i class="fas fa-fire"></i>BioAtivação Profunda</span><span class="mq-item"><i class="fas fa-fire"></i>Microcirculação</span><span class="mq-item"><i class="fas fa-fire"></i>Resultado na 1ª Sessão</span><span class="mq-item"><i class="fas fa-fire"></i>Ativação Metabólica</span><span class="mq-item"><i class="fas fa-fire"></i>Queima de Gordura</span><span class="mq-item"><i class="fas fa-fire"></i>Desintoxicação Celular</span><span class="mq-item"><i class="fas fa-fire"></i>BioAtivação Profunda</span><span class="mq-item"><i class="fas fa-fire"></i>Microcirculação</span><span class="mq-item"><i class="fas fa-fire"></i>Resultado na 1ª Sessão</span>
+  </div>
+</div>
+
+<!-- PROBLEM / STORY -->
+<section class="problem" id="historia">
+  <div class="p-vis rl">
+    <img src="img/foto.png" alt="Termoterapia" class="p-img">
+    <div class="p-badge"><div class="p-badge-n">+8cm</div><div class="p-badge-l">Redução média / sessão</div></div>
+  </div>
+  <div class="p-txt rr">
+    <div class="over">Por que a Termoterapia?</div>
+    <h2 class="sec-h">Seu corpo sabe queimar gordura. Ele só precisa de <em>permissão para começar.</em></h2>
+    <p class="sec-p">A maioria das pessoas que luta com gordura localizada não tem um problema de esforço — tem um problema de metabolismo travado. <strong>A Termoterapia destrava esse metabolismo.</strong></p>
+    <p class="sec-p">Através de ação térmica controlada e precisa, o calor penetra nas camadas profundas do tecido adiposo, elevando a temperatura local e ativando processos de lipólise que o seu corpo não consegue ativar sozinho por mais que se esforce.</p>
+    <p class="sec-p">O resultado? <strong>Queima de gordura real. Desintoxicação celular imediata. Sensação de leveza desde a primeira sessão.</strong> Não promessa — fisiologia.</p>
+  </div>
+</section>
+
+<!-- MECHANISMS -->
+<section class="mech" id="mecanismos">
+  <div class="mech-in">
+    <div class="mech-hdr rv">
+      <div class="over">Como age no seu corpo</div>
+      <h2 class="sec-h">Três mecanismos. <em>Uma transformação completa.</em></h2>
+    </div>
+    <div class="mech-grid">
+      <div class="mc rv d1">
+        <div class="mc-ico"><i class="fas fa-fire-flame-curved"></i></div>
+        <h3 class="mc-t">Lipólise Acelerada</h3>
+        <p class="mc-p">O calor eleva a temperatura dos tecidos adiposos acima do limiar de ativação enzimática. A lipase sensível a hormônios entra em ação e começa a quebrar triglicerídeos em ácidos graxos — energia liberada imediatamente.</p>
+        <div class="mc-num">01</div>
+      </div>
+      <div class="mc rv d2">
+        <div class="mc-ico"><i class="fas fa-droplet"></i></div>
+        <h3 class="mc-t">Microcirculação Ativada</h3>
+        <p class="mc-p">A vasodilatação induzida pelo calor aumenta o fluxo sanguíneo local em até 400%. Mais oxigênio chega. Mais toxinas saem. A região tratada é literalmente renovada a cada sessão.</p>
+        <div class="mc-num">02</div>
+      </div>
+      <div class="mc rv d3">
+        <div class="mc-ico"><i class="fas fa-leaf"></i></div>
+        <h3 class="mc-t">Desintoxicação Profunda</h3>
+        <p class="mc-p">Toxinas que ficam anos aprisionadas no tecido adiposo são mobilizadas e eliminadas. O organismo encontra o equilíbrio que precisava — e o metabolismo responde em cascata.</p>
+        <div class="mc-num">03</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESULTS STRIP -->
+<div class="rstrip">
+  <div class="rs-item rv"><div class="rs-n">1ª</div><div class="rs-l">Sessão com resultado</div></div>
+  <div class="rs-item rv d1"><div class="rs-n">+8cm</div><div class="rs-l">Redução média por sessão</div></div>
+  <div class="rs-item rv d2"><div class="rs-n">100%</div><div class="rs-l">Protocolo personalizado</div></div>
+  <div class="rs-item rv d3"><div class="rs-n">Zero</div><div class="rs-l">Intervenção cirúrgica</div></div>
+</div>
+
+<!-- INDICATIONS -->
+<section class="ind">
+  <div class="over rv">Para quem é indicado</div>
+  <h2 class="sec-h rv">Se você se identifica com <em>algum desses cenários,</em> a Termoterapia é para você</h2>
+  <div class="ind-grid">
+    <ul class="ind-list rl">
+      <li><i class="fas fa-check"></i>Gordura localizada que não responde à dieta ou academia</li>
+      <li><i class="fas fa-check"></i>Metabolismo lento que dificulta o emagrecimento</li>
+      <li><i class="fas fa-check"></i>Retenção hídrica persistente</li>
+      <li><i class="fas fa-check"></i>Flacidez tissular moderada</li>
+      <li><i class="fas fa-check"></i>Celulite em estágios iniciais e intermediários</li>
+      <li><i class="fas fa-check"></i>Desejo de preparar o corpo para um evento específico</li>
+      <li><i class="fas fa-check"></i>Potencializar os efeitos de outros tratamentos</li>
+    </ul>
+    <div class="rr">
+      <div class="ind-cta-card">
+        <div class="ind-cta-tag"><div class="ind-cta-pulse"></div>Alta procura</div>
+        <h3 class="ind-cta-h">Não sabe se é o tratamento certo <em>para você?</em></h3>
+        <p class="ind-cta-p">A Dra. Cris Mota faz a avaliação completa e indica o protocolo exato para o seu caso. Sem generalização. Sem erro.</p>
+        <a href="https://wa.me/5511942305469?text=Olá%20Dra.%20Cris!%20Quero%20saber%20se%20a%20Termoterapia%20é%20indicada%20para%20mim!" class="btn-g" target="_blank"><span>Falar com a especialista</span><i class="fab fa-whatsapp"></i></a>
+      </div>
+      <div class="ind-note" style="margin-top:16px">
+        <p><strong>Nota clínica:</strong> A Termoterapia é frequentemente combinada com a Endermoterapia para um efeito duplo e potencializado. O combo é considerado um dos mais eficazes da clínica.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROOF -->
+<section class="proof">
+  <div class="proof-in">
+    <div class="over rv">O que dizem as pacientes</div>
+    <h2 class="sec-h rv">Resultados que <em>falam por si</em></h2>
+    <div class="proof-grid">
+      <div class="pc rv d1"><div class="pc-stars">★★★★★</div><p class="pc-t">"Fiz minha primeira sessão de drenagem com a Cris e saí mais leve em todos os sentidos. Eu e meu marido amamos a experiência — é outra dimensão de cuidado."</p><div class="pc-auth"><div class="pc-av">F</div><div><div class="pc-name">Fernanda Matos</div><div class="pc-det">Termoterapia · Google ✓</div></div></div></div>
+      <div class="pc rv d2"><div class="pc-stars">★★★★★</div><p class="pc-t">"Passei 2,5 anos em depressão e hoje a minha melhor terapia são as sessões com a Dra. Cris. Não tenho mais dores, durmo bem melhor e a ansiedade diminuiu muito."</p><div class="pc-auth"><div class="pc-av">R</div><div><div class="pc-name">Rodrigo Simoes</div><div class="pc-det">Protocolo Térmico · Google ✓</div></div></div></div>
+      <div class="pc rv d3"><div class="pc-stars">★★★★★</div><p class="pc-t">"Graças à Dra. Cris estou tendo uma gestação super tranquila. Consultório moderno, profissional extraordinária. Os resultados foram além do que esperava."</p><div class="pc-auth"><div class="pc-av">S</div><div><div class="pc-name">Sara Costa</div><div class="pc-det">Termoterapia · Google ✓</div></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- COMBO HIGHLIGHT -->
+<section class="combo">
+  <div class="combo-in">
+    <div class="combo-l rv">
+      <div class="over">Potencialize seus resultados</div>
+      <h2 class="combo-h">O combo que as pacientes <em>não conseguem parar de fazer</em></h2>
+      <p class="combo-p">A Termoterapia e a Endermoterapia juntas criam um efeito sinérgico incomparável: o calor ativa a lipólise e a vacuoterapia elimina a gordura mobilizada. Duas tecnologias. Um resultado exponencial.</p>
+      <a href="https://wa.me/5511942305469?text=Olá%20Dra.%20Cris!%20Quero%20saber%20mais%20sobre%20o%20combo%20Termoterapia%20%2B%20Endermoterapia!" class="btn-g" target="_blank"><span>Quero o combo completo</span><i class="fab fa-whatsapp"></i></a>
+    </div>
+    <div class="combo-r rr">
+      <div class="combo-card"><div class="combo-card-ico"><i class="fas fa-fire-flame-curved"></i></div><div><div class="combo-card-t">Termoterapia</div><div class="combo-card-p">Ativa e libera a gordura localizada</div></div></div>
+      <div class="combo-card" style="background:rgba(201,169,110,.03);border-color:var(--bh)"><div class="combo-card-ico" style="border-color:var(--gold)"><i class="fas fa-plus" style="color:var(--gold)"></i></div><div><div class="combo-card-t" style="color:var(--gold)">Combo Exclusivo</div><div class="combo-card-p">O mais pedido da clínica</div></div></div>
+      <div class="combo-card"><div class="combo-card-ico"><i class="fas fa-circle-nodes"></i></div><div><div class="combo-card-t">Endermoterapia</div><div class="combo-card-p">Elimina e esculpe o contorno</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- URGENCY -->
+<div class="urg">
+  <div class="urg-in">
+    <div class="rl">
+      <div class="urg-tag"><div class="urg-pulse"></div>Agenda com alta procura</div>
+      <h2 class="urg-h">As vagas para avaliação <em>são limitadas por semana.</em></h2>
+    </div>
+    <div class="rr" style="display:flex;align-items:center;gap:28px;flex-wrap:wrap">
+      <div><div class="urg-slots-n">3</div><div class="urg-slots-l">Vagas esta semana</div></div>
+      <a href="https://wa.me/5511942305469?text=Olá%20Dra.%20Cris!%20Quero%20garantir%20minha%20vaga%20para%20Termoterapia!" class="btn-g" target="_blank"><span>Garantir minha vaga agora</span><i class="fab fa-whatsapp"></i></a>
+    </div>
+  </div>
+</div>
+
+<!-- FINAL CTA -->
+<section class="cta-fin">
+  <div class="cta-bg"></div>
+  <div class="cta-ov"></div>
+  <div class="cta-c rv">
+    <span class="cta-ey">O calor que transforma</span>
+    <h2 class="cta-h">Sinta a<span class="cta-hi">BioAtivação real.</span></h2>
+    <p class="cta-sub">Agende sua avaliação e descubra como a Termoterapia pode desbloquear o metabolismo que estava esperando para agir. Sua transformação começa no calor certo.</p>
+    <div class="cta-grp">
+      <a href="https://wa.me/5511942305469?text=Olá%20Dra.%20Cris!%20Quero%20agendar%20minha%20avaliação%20de%20Termoterapia!" class="btn-g" target="_blank"><span>Agendar avaliação agora</span><i class="fab fa-whatsapp"></i></a>
+      <a href="index.html" class="btn-txt">Ver outros tratamentos <i class="fas fa-arrow-right"></i></a>
+    </div>
+    <p class="cta-note"><i class="fas fa-shield-alt"></i>Avaliação personalizada &nbsp;·&nbsp; Sem compromisso &nbsp;·&nbsp; Sigilo total</p>
+  </div>
+</section>
+
+<footer class="pf">
+  <div class="pf-logo">CRIS MOTA</div>
+  <nav class="pf-nav"><a href="index.html">Início</a><a href="sculp.html">Método SCULP</a><a href="endermoterapia.html">Endermoterapia</a><a href="https://wa.me/5511942305469" target="_blank">WhatsApp</a></nav>
+</footer>
+
+<script>
+const cd=document.getElementById('cd'),cr=document.getElementById('cr');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cd.style.left=mx+'px';cd.style.top=my+'px'});
+(function loop(){rx+=(mx-rx)*.1;ry+=(my-ry)*.1;cr.style.left=rx+'px';cr.style.top=ry+'px';requestAnimationFrame(loop)})();
+window.addEventListener('scroll',()=>{const s=document.documentElement;document.getElementById('prog').style.width=(s.scrollTop/(s.scrollHeight-s.clientHeight)*100)+'%'});
+const obs=new IntersectionObserver(e=>e.forEach(el=>{if(el.isIntersecting)el.target.classList.add('on')}),{threshold:.07});
+document.querySelectorAll('.rv,.rl,.rr').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>

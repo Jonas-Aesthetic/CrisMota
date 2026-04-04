@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Método SCULP | Cris Mota</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;1,300&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet">
+<style>
+:root{--gold:#c9a96e;--gold-light:#e8d5a3;--gold-dark:#8b6914;--bg:#0f0a07;--bg2:#160e0a;--bg3:#1d1209;--bgc:#1a110c;--text:#f0e8d8;--muted:rgba(240,232,216,.5);--border:rgba(201,169,110,.14);--bh:rgba(201,169,110,.35)}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Lato',sans-serif;font-weight:300;overflow-x:hidden;cursor:none}
+.cur-d{position:fixed;width:6px;height:6px;background:var(--gold);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:transform .1s}
+.cur-r{position:fixed;width:36px;height:36px;border:1px solid rgba(201,169,110,.45);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .3s,height .3s,border-color .3s}
+body:has(a:hover) .cur-r{width:56px;height:56px;border-color:rgba(201,169,110,.7)}
+#prog{position:fixed;top:0;left:0;height:2px;background:linear-gradient(90deg,var(--gold-dark),var(--gold),var(--gold-light));z-index:9997;width:0;transition:width .08s}
+.back-nav{position:fixed;top:28px;left:32px;z-index:990}
+.back-btn{display:inline-flex;align-items:center;gap:9px;color:var(--gold);text-decoration:none;font-size:10px;letter-spacing:.25em;text-transform:uppercase;font-weight:700;background:rgba(15,10,7,.88);padding:11px 22px;border:1px solid var(--border);backdrop-filter:blur(20px);transition:all .3s}
+.back-btn:hover{border-color:var(--bh);color:var(--gold-light)}
+
+/* HERO */
+.hero{min-height:100vh;display:grid;grid-template-columns:55% 45%;position:relative;overflow:hidden}
+.hero-l{display:flex;flex-direction:column;justify-content:center;padding:130px 64px 80px;position:relative;z-index:2}
+.hero-r{position:relative;overflow:hidden}
+.hero-img{width:100%;height:100%;object-fit:cover;object-position:center top;filter:saturate(.8);animation:zoomIn 2s ease forwards}
+@keyframes zoomIn{from{transform:scale(1.06)}to{transform:scale(1)}}
+.hero-r::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,var(--bg) 0%,transparent 50%);z-index:1}
+.hero-r::after{content:'';position:absolute;bottom:0;left:0;right:0;height:220px;background:linear-gradient(0,var(--bg),transparent);z-index:1}
+.particles{position:absolute;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.p{position:absolute;border-radius:50%;background:var(--gold);animation:floatUp linear infinite;opacity:0}
+@keyframes floatUp{0%{transform:translateY(110vh);opacity:0}15%{opacity:.3}85%{opacity:.15}100%{transform:translateY(-10vh);opacity:0}}
+.eyebrow{display:flex;align-items:center;gap:14px;margin-bottom:36px;animation:su .8s .2s both}
+.eyebrow-bar{width:30px;height:1px;background:var(--gold)}
+.eyebrow-txt{font-size:10px;letter-spacing:.4em;text-transform:uppercase;color:var(--gold);font-weight:700}
+.h1{font-family:'Playfair Display',serif;font-size:clamp(54px,7vw,92px);font-weight:700;line-height:.92;animation:su .9s .4s both}
+.h1-italic{display:block;font-style:italic;font-weight:400;color:var(--gold);font-size:.78em;margin-top:6px}
+.hero-sub{font-size:15px;line-height:1.9;color:var(--muted);max-width:460px;margin:28px 0 44px;animation:su .9s .6s both}
+.hero-sub strong{color:var(--text);font-weight:400}
+.hstats{display:flex;margin-bottom:44px;animation:su .9s .8s both}
+.hs{padding:18px 28px;border:1px solid var(--border);text-align:center}
+.hs+.hs{border-left:none}
+.hs-n{font-family:'Playfair Display',serif;font-size:26px;color:var(--gold);line-height:1}
+.hs-l{font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-top:4px}
+.cta-row{display:flex;align-items:center;gap:20px;flex-wrap:wrap;animation:su .9s 1s both}
+.btn-g{display:inline-flex;align-items:center;gap:12px;background:linear-gradient(135deg,#c9a96e,#8b6914);color:#0f0a07;font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;padding:17px 34px;text-decoration:none;transition:all .35s;position:relative;overflow:hidden}
+.btn-g::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,#e8d5a3,#c9a96e);opacity:0;transition:opacity .3s}
+.btn-g:hover::after{opacity:1}
+.btn-g:hover{transform:translateY(-2px);box-shadow:0 14px 44px rgba(201,169,110,.32)}
+.btn-g span,.btn-g i{position:relative;z-index:1}
+.btn-txt{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);text-decoration:none;display:flex;align-items:center;gap:8px;transition:color .3s}
+.btn-txt:hover{color:var(--gold)}
+.scroll-hint{margin-top:56px;display:flex;align-items:center;gap:12px;animation:su 1s 1.3s both}
+.sh-bar{width:36px;height:1px;background:var(--gold);animation:shbar 2s 2s ease-in-out infinite}
+@keyframes shbar{0%,100%{width:36px;opacity:.4}50%{width:64px;opacity:1}}
+.sh-t{font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);opacity:.5}
+@keyframes su{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+
+/* MARQUEE */
+.mq{border-top:1px solid var(--border);border-bottom:1px solid var(--border);overflow:hidden;padding:18px 0;background:var(--bg2)}
+.mq-track{display:flex;width:max-content;animation:mq 22s linear infinite}
+.mq-item{display:flex;align-items:center;gap:14px;padding:0 36px;white-space:nowrap;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);opacity:.6}
+.mq-item i{font-size:7px}
+@keyframes mq{to{transform:translateX(-50%)}}
+
+/* STORY */
+.story{padding:120px 64px;max-width:1280px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:90px;align-items:center}
+.story-over{font-size:10px;letter-spacing:.35em;text-transform:uppercase;color:var(--gold);margin-bottom:20px;display:flex;align-items:center;gap:12px}
+.story-over::before{content:'';width:24px;height:1px;background:var(--gold)}
+.story-h{font-family:'Playfair Display',serif;font-size:clamp(28px,3.5vw,44px);font-weight:500;line-height:1.18;margin-bottom:28px}
+.story-h em{font-style:italic;color:var(--gold)}
+.story-p{font-size:14px;line-height:1.95;color:var(--muted);margin-bottom:18px}
+.story-p strong{color:var(--text);font-weight:400}
+.story-vis{position:relative}
+.s-main{width:100%;aspect-ratio:3/4;object-fit:cover;object-position:center top;filter:saturate(.7) contrast(1.08)}
+.s-acc{position:absolute;bottom:-36px;right:-36px;width:52%;aspect-ratio:1;object-fit:cover;border:4px solid var(--bg);filter:saturate(.6)}
+.s-badge{position:absolute;top:28px;left:-28px;background:var(--bgc);border:1px solid var(--border);padding:18px 22px;text-align:center}
+.s-badge-n{font-family:'Playfair Display',serif;font-size:32px;color:var(--gold);line-height:1}
+.s-badge-l{font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-top:4px}
+
+/* BENEFITS */
+.bens{padding:120px 0;background:var(--bg2)}
+.bens-hdr{padding:0 64px;margin-bottom:60px;max-width:1280px;margin-left:auto;margin-right:auto;margin-bottom:60px}
+.bens-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;padding:0 64px;max-width:1280px;margin:0 auto}
+.bc{background:var(--bgc);border:1px solid var(--border);padding:44px 38px;position:relative;overflow:hidden;transition:all .5s cubic-bezier(.25,.46,.45,.94)}
+.bc::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at bottom right,rgba(201,169,110,.07) 0%,transparent 55%);opacity:0;transition:opacity .5s}
+.bc:hover{transform:translateY(-8px);border-color:var(--bh);box-shadow:0 40px 90px rgba(0,0,0,.5)}
+.bc:hover::after{opacity:1}
+.bc-n{font-family:'Playfair Display',serif;font-size:60px;color:rgba(201,169,110,.07);line-height:1;margin-bottom:20px;transition:color .5s}
+.bc:hover .bc-n{color:rgba(201,169,110,.16)}
+.bc-ico{width:42px;height:42px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;margin-bottom:22px;transition:all .4s}
+.bc:hover .bc-ico{border-color:var(--gold);background:rgba(201,169,110,.06)}
+.bc-ico i{color:var(--gold);font-size:15px}
+.bc-t{font-family:'Playfair Display',serif;font-size:19px;margin-bottom:10px;color:var(--gold-light)}
+.bc-p{font-size:13px;line-height:1.85;color:var(--muted)}
+.bc-arr{position:absolute;bottom:24px;right:24px;color:var(--border);font-size:13px;transition:all .4s}
+.bc:hover .bc-arr{color:var(--gold);transform:translate(3px,-3px)}
+
+/* JOURNEY */
+.journey{padding:120px 64px;max-width:1280px;margin:0 auto}
+.j-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;margin-top:60px}
+.tl{display:flex;flex-direction:column}
+.tl-i{display:flex;gap:28px;position:relative;padding-bottom:44px}
+.tl-i:last-child{padding-bottom:0}
+.tl-lft{display:flex;flex-direction:column;align-items:center;flex-shrink:0}
+.tl-dot{width:46px;height:46px;border:1px solid var(--border);background:var(--bgc);display:flex;align-items:center;justify-content:center;z-index:1;transition:all .4s}
+.tl-i:hover .tl-dot{border-color:var(--gold);background:rgba(201,169,110,.07)}
+.tl-dot i{color:var(--muted);font-size:13px;transition:color .4s}
+.tl-i:hover .tl-dot i{color:var(--gold)}
+.tl-ln{width:1px;flex:1;background:var(--border)}
+.tl-i:last-child .tl-ln{display:none}
+.tl-body{padding-top:8px}
+.tl-step{font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:7px;opacity:.7}
+.tl-ti{font-family:'Playfair Display',serif;font-size:19px;margin-bottom:8px}
+.tl-tx{font-size:13px;line-height:1.85;color:var(--muted)}
+.j-right{}
+.j-sticky{position:sticky;top:120px}
+.quote-block{border-left:2px solid var(--gold);padding:24px 30px;margin-bottom:36px;background:rgba(201,169,110,.03)}
+.quote-t{font-family:'Playfair Display',serif;font-size:20px;font-style:italic;line-height:1.55;margin-bottom:14px}
+.quote-a{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold)}
+.mini-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-bottom:36px}
+.mg-item{background:var(--bgc);border:1px solid var(--border);padding:22px 18px}
+.mg-n{font-family:'Playfair Display',serif;font-size:28px;color:var(--gold)}
+.mg-l{font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-top:4px;line-height:1.4}
+
+/* PROOF */
+.proof{background:var(--bg2);padding:100px 64px;border-top:1px solid var(--border)}
+.proof-in{max-width:1280px;margin:0 auto}
+.proof-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:60px}
+.pc{background:var(--bgc);border:1px solid var(--border);padding:34px 30px;transition:all .4s}
+.pc:hover{border-color:var(--bh);transform:translateY(-5px)}
+.pc-stars{color:var(--gold);font-size:11px;letter-spacing:3px;margin-bottom:18px}
+.pc-t{font-size:13px;line-height:1.82;color:var(--muted);font-style:italic;margin-bottom:22px}
+.pc-auth{display:flex;align-items:center;gap:12px}
+.pc-av{width:38px;height:38px;border-radius:50%;border:1px solid var(--border);background:var(--bg3);display:flex;align-items:center;justify-content:center;color:var(--gold);font-family:'Playfair Display',serif;font-size:15px;flex-shrink:0}
+.pc-name{font-size:12px;font-weight:700;color:var(--text)}
+.pc-det{font-size:10px;color:var(--muted);margin-top:2px}
+
+/* URGENCY */
+.urg{background:linear-gradient(135deg,var(--bg3),#241508);padding:60px 64px;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.urg-in{max-width:1280px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:40px;flex-wrap:wrap}
+.urg-tag{font-size:9px;letter-spacing:.35em;text-transform:uppercase;color:var(--gold);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.urg-pulse{width:7px;height:7px;border-radius:50%;background:#dc3;animation:pulse 1.4s ease-in-out infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(220,200,60,.4)}50%{box-shadow:0 0 0 8px rgba(220,200,60,0)}}
+.urg-h{font-family:'Playfair Display',serif;font-size:clamp(22px,3vw,34px);line-height:1.2}
+.urg-h em{font-style:italic;color:var(--gold)}
+.urg-slots-n{font-family:'Playfair Display',serif;font-size:52px;color:var(--gold);line-height:1;text-align:center}
+.urg-slots-l{font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);text-align:center}
+
+/* CTA FINAL */
+.cta-fin{min-height:70vh;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;padding:80px 64px}
+.cta-bg{position:absolute;inset:0;background:url('img/sculp.jpg') center/cover no-repeat;opacity:.05;filter:saturate(.2)}
+.cta-ov{position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(201,169,110,.04) 0%,var(--bg) 68%)}
+.cta-c{position:relative;z-index:2;text-align:center;max-width:680px}
+.cta-ey{font-size:10px;letter-spacing:.35em;text-transform:uppercase;color:var(--gold);margin-bottom:22px;display:block}
+.cta-h{font-family:'Playfair Display',serif;font-size:clamp(38px,6vw,74px);font-weight:600;line-height:.95;margin-bottom:8px}
+.cta-hi{display:block;font-style:italic;font-weight:400;color:var(--gold);font-size:.68em}
+.cta-sub{font-size:15px;line-height:1.82;color:var(--muted);max-width:500px;margin:24px auto 44px}
+.cta-grp{display:flex;align-items:center;justify-content:center;gap:18px;flex-wrap:wrap}
+.cta-note{font-size:11px;color:var(--muted);margin-top:22px;display:flex;align-items:center;justify-content:center;gap:8px}
+.cta-note i{color:var(--gold);font-size:10px}
+
+/* FOOTER */
+.pf{border-top:1px solid var(--border);padding:28px 64px;display:flex;align-items:center;justify-content:space-between}
+.pf-logo{font-family:'Playfair Display',serif;font-size:17px;color:var(--gold);letter-spacing:.15em}
+.pf-nav{display:flex;gap:28px}
+.pf-nav a{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .3s}
+.pf-nav a:hover{color:var(--gold)}
+
+/* SECTION OVERLINE */
+.over{font-size:10px;letter-spacing:.35em;text-transform:uppercase;color:var(--gold);margin-bottom:14px;display:flex;align-items:center;gap:12px}
+.over::before{content:'';width:22px;height:1px;background:var(--gold)}
+.sec-h{font-family:'Playfair Display',serif;font-size:clamp(26px,4vw,46px);font-weight:500;line-height:1.15}
+.sec-h em{font-style:italic;color:var(--gold)}
+
+/* REVEAL */
+.rv{opacity:0;transform:translateY(36px);transition:opacity .9s cubic-bezier(.25,.46,.45,.94),transform .9s cubic-bezier(.25,.46,.45,.94)}
+.rv.on{opacity:1;transform:none}
+.rl{opacity:0;transform:translateX(-44px);transition:opacity .9s ease,transform .9s ease}
+.rl.on{opacity:1;transform:none}
+.rr{opacity:0;transform:translateX(44px);transition:opacity .9s ease,transform .9s ease}
+.rr.on{opacity:1;transform:none}
+.d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}.d4{transition-delay:.4s}.d5{transition-delay:.5s}
+
+/* RESPONSIVE — TABLET */
+@media(max-width:960px){
+  .hero{grid-template-columns:1fr}
+  .hero-r{height:55vw;min-height:280px}
+  .hero-l{padding:100px 28px 56px}
+  .h1{font-size:clamp(44px,10vw,72px)}
+  .hstats{flex-wrap:wrap;gap:0}
+  .hs{padding:14px 20px}
+  .story{grid-template-columns:1fr;padding:80px 28px;gap:40px}
+  .s-acc,.s-badge{display:none}
+  .bens-grid,.bens-hdr{padding:0 28px}
+  .bens-grid{grid-template-columns:1fr 1fr}
+  .journey{padding:80px 28px}
+  .j-grid{grid-template-columns:1fr;gap:48px}
+  .j-sticky{position:static}
+  .proof{padding:80px 28px}
+  .proof-grid{grid-template-columns:1fr 1fr;gap:2px}
+  .urg{padding:48px 28px}
+  .urg-in{flex-direction:column;text-align:center}
+  .urg-tag{justify-content:center}
+  .cta-fin{padding:80px 28px}
+  .pf{padding:24px 28px;flex-direction:column;gap:16px;text-align:center}
+  .pf-nav{flex-wrap:wrap;justify-content:center;gap:16px}
+  .scroll-hint{display:none}
+}
+
+/* RESPONSIVE — MOBILE */
+@media(max-width:600px){
+  /* Cursor invisível em touch */
+  .cur-d,.cur-r{display:none}
+  body{cursor:auto}
+
+  /* Back nav */
+  .back-nav{top:16px;left:16px}
+  .back-btn{padding:9px 16px;font-size:9px}
+
+  /* HERO */
+  .hero{grid-template-columns:1fr;min-height:auto}
+  .hero-r{height:62vw;min-height:240px}
+  .hero-l{padding:80px 20px 44px}
+  .h1{font-size:clamp(38px,12vw,60px);line-height:.95}
+  .eyebrow{margin-bottom:24px}
+  .eyebrow-txt{font-size:9px;letter-spacing:.25em}
+  .hero-sub{font-size:14px;line-height:1.75;margin:20px 0 30px;max-width:100%}
+  .hstats{flex-wrap:wrap;margin-bottom:28px}
+  .hs{padding:12px 16px;flex:1;min-width:100px}
+  .hs-n{font-size:20px}
+  .hs-l{font-size:8px}
+  .cta-row{flex-direction:column;align-items:stretch;gap:12px}
+  .btn-g{justify-content:center;padding:15px 24px;font-size:10px;letter-spacing:.15em}
+  .btn-txt{justify-content:center}
+  .scroll-hint{display:none}
+
+  /* MARQUEE */
+  .mq{padding:14px 0}
+  .mq-item{padding:0 22px;font-size:9px}
+
+  /* STORY */
+  .story{grid-template-columns:1fr;padding:56px 20px;gap:32px}
+  .s-acc,.s-badge{display:none}
+  .story-h{font-size:clamp(22px,7vw,34px)}
+  .story-p{font-size:13px}
+
+  /* BENEFITS */
+  .bens{padding:56px 0}
+  .bens-hdr{padding:0 20px;margin-bottom:36px}
+  .bens-grid{grid-template-columns:1fr;padding:0 20px;gap:2px}
+  .bc{padding:32px 28px}
+  .bc-n{font-size:48px;margin-bottom:14px}
+  .bc-t{font-size:17px}
+  .bc-p{font-size:13px}
+
+  /* JOURNEY */
+  .journey{padding:56px 20px}
+  .j-grid{grid-template-columns:1fr;gap:40px}
+  .j-sticky{position:static}
+  .tl-i{gap:18px;padding-bottom:32px}
+  .tl-dot{width:38px;height:38px}
+  .tl-dot i{font-size:11px}
+  .tl-ti{font-size:17px}
+  .tl-tx{font-size:12px}
+  .quote-block{padding:20px 22px;margin-bottom:24px}
+  .quote-t{font-size:17px}
+  .mini-grid{grid-template-columns:1fr 1fr;gap:2px;margin-bottom:24px}
+  .mg-item{padding:18px 14px}
+  .mg-n{font-size:22px}
+
+  /* PROOF */
+  .proof{padding:56px 20px}
+  .proof-grid{grid-template-columns:1fr;gap:2px}
+  .pc{padding:28px 22px}
+  .pc-t{font-size:12px}
+
+  /* URGENCY */
+  .urg{padding:40px 20px}
+  .urg-in{flex-direction:column;text-align:center;gap:28px}
+  .urg-tag{justify-content:center}
+  .urg-h{font-size:clamp(20px,6vw,28px)}
+  .urg-slots-n{font-size:44px}
+  .urg-in > div:last-child{flex-direction:column;align-items:center;width:100%}
+  .urg-in .btn-g{width:100%;justify-content:center}
+
+  /* CTA FINAL */
+  .cta-fin{min-height:auto;padding:64px 20px}
+  .cta-h{font-size:clamp(32px,10vw,56px)}
+  .cta-sub{font-size:14px}
+  .cta-grp{flex-direction:column;align-items:stretch;gap:12px}
+  .cta-grp .btn-g{justify-content:center}
+  .cta-grp .btn-txt{justify-content:center}
+  .cta-note{flex-wrap:wrap;text-align:center;gap:6px;font-size:10px}
+
+  /* FOOTER */
+  .pf{padding:20px;flex-direction:column;gap:14px;text-align:center}
+  .pf-nav{flex-wrap:wrap;justify-content:center;gap:12px 20px}
+  .pf-nav a{font-size:9px}
+  .pf-logo{font-size:15px}
+}
+</style>
+</head>
+<body>
+<div class="cur-d" id="cd"></div>
+<div class="cur-r" id="cr"></div>
+<div id="prog"></div>
+
+<nav class="back-nav">
+  <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i> Voltar</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="particles" id="ptc"></div>
+  <div class="hero-l">
+    <div class="eyebrow"><div class="eyebrow-bar"></div><span class="eyebrow-txt">Protocolo Proprietário · Exclusivo</span></div>
+    <h1 class="h1">Método<span class="h1-italic">SCULP</span></h1>
+    <p class="hero-sub">Você já tentou de tudo — e nada ficou. O Método SCULP foi criado para quem recusou aceitar <strong>"não dá"</strong> como resposta. Ciência real. Transformação comprovada.</p>
+    <div class="hstats">
+      <div class="hs"><div class="hs-n">-10kg</div><div class="hs-l">ou mais, desde a 1ª</div></div>
+      <div class="hs"><div class="hs-n">+10k</div><div class="hs-l">transformações reais</div></div>
+      <div class="hs"><div class="hs-n">100%</div><div class="hs-l">personalizado</div></div>
+    </div>
+    <div class="cta-row">
+      <a href="https://wa.me/5511942305469?text=Olá%20Dra.%20Cris!%20Quero%20conhecer%20o%20Método%20SCULP!" class="btn-g" target="_blank"><span>Quero minha transformação</span><i class="fab fa-whatsapp"></i></a>
+      <a href="#historia" class="btn-txt">Como funciona <i class="fas fa-arrow-down"></i></a>
+    </div>
+    <div class="scroll-hint"><div class="sh-bar"></div><span class="sh-t">Role para descobrir</span></div>
+  </div>
+  <div class="hero-r">
+    <img src="img/corpo.png" alt="Método SCULP" class="hero-img">
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="mq">
+  <div class="mq-track">
+    <span class="mq-item"><i class="fas fa-diamond"></i>BioEstética Ortomolecular</span><span class="mq-item"><i class="fas fa-diamond"></i>Naturopatia Avançada</span><span class="mq-item"><i class="fas fa-diamond"></i>Redução de Medidas</span><span class="mq-item"><i class="fas fa-diamond"></i>Escultura Corporal</span><span class="mq-item"><i class="fas fa-diamond"></i>Resultados Sustentáveis</span><span class="mq-item"><i class="fas fa-diamond"></i>Protocolo Exclusivo</span><span class="mq-item"><i class="fas fa-diamond"></i>+10k Transformações</span><span class="mq-item"><i class="fas fa-diamond"></i>BioEstética Ortomolecular</span><span class="mq-item"><i class="fas fa-diamond"></i>Naturopatia Avançada</span><span class="mq-item"><i class="fas fa-diamond"></i>Redução de Medidas</span><span class="mq-item"><i class="fas fa-diamond"></i>Escultura Corporal</span><span class="mq-item"><i class="fas fa-diamond"></i>Resultados Sustentáveis</span><span class="mq-item"><i class="fas fa-diamond"></i>Protocolo Exclusivo</span><span class="mq-item"><i class="fas fa-diamond"></i>+10k Transformações</span>
+  </div>
+</div>
+
+<!-- STORY -->
+<section id="historia" class="story">
+  <div class="rl">
+    <div class="story-over">A Origem</div>
+    <h2 class="story-h">Você merece um corpo <em>que finalmente responde.</em></h2>
+    <p class="story-p">A Dra. Cris Mota passou anos observando um padrão que se repetia: pacientes inteligentes, dedicadas, que faziam tudo "certo" — e o corpo simplesmente não cedia. <strong>Não era falta de esforço. Era falta do método correto.</strong></p>
+    <p class="story-p">O Método SCULP nasceu dessa constatação. Uma metodologia que une BioEstética Ortomolecular com Naturopatia avançada — tratando o organismo como um sistema vivo e integrado, não apenas a superfície visível.</p>
+    <p class="story-p"><strong>Cada protocolo é construído do zero para você</strong> — seu biotipo, seu histórico, seus objetivos. Não existe receita genérica. Existe ciência aplicada com precisão e cuidado real.</p>
+  </div>
+  <div class="story-vis rr">
+    <div class="s-badge"><div class="s-badge-n">15+</div><div class="s-badge-l">Anos de pesquisa</div></div>
+    <!--<img src="" alt="Método SCULP" class="s-main"> -->
+    <img src="./img/Gemini_Generated_Image_w3jrzow3jrzow3jr-removebg-preview.png" alt="Dra. Cris Mota">
+  </div>
+</section>
+
+<!-- BENEFITS -->
+<section class="bens">
+  <div class="bens-hdr rv">
+    <div class="over">O que você ganha</div>
+    <h2 class="sec-h">Seis razões para <em>nunca mais voltar atrás</em></h2>
+  </div>
+  <div class="bens-grid">
+    <div class="bc rv d1"><div class="bc-n">01</div><div class="bc-ico"><i class="fas fa-ruler-horizontal"></i></div><h3 class="bc-t">Centímetros Reais</h3><p class="bc-p">Não promessas vagas. Medições documentadas, desde a primeira sessão. Você vê, você mede, você comprova com números.</p><i class="fas fa-arrow-up-right bc-arr"></i></div>
+    <div class="bc rv d2"><div class="bc-n">02</div><div class="bc-ico"><i class="fas fa-wand-magic-sparkles"></i></div><h3 class="bc-t">Escultura Precisa</h3><p class="bc-p">Técnicas proprietárias que revelam a silhueta que seu corpo sempre escondeu — com contornos que nenhuma dieta sozinha entrega.</p><i class="fas fa-arrow-up-right bc-arr"></i></div>
+    <div class="bc rv d3"><div class="bc-n">03</div><div class="bc-ico"><i class="fas fa-dna"></i></div><h3 class="bc-t">Equilíbrio Celular</h3><p class="bc-p">A raiz do problema tratada: metabolismo celular reequilibrado pela BioEstética Ortomolecular. De dentro para fora, para sempre.</p><i class="fas fa-arrow-up-right bc-arr"></i></div>
+    <div class="bc rv d1"><div class="bc-n">04</div><div class="bc-ico"><i class="fas fa-infinity"></i></div><h3 class="bc-t">Resultado que Dura</h3><p class="bc-p">Sua transformação acompanha você. Protocolos de manutenção garantem que o que foi conquistado permaneça e evolua.</p><i class="fas fa-arrow-up-right bc-arr"></i></div>
+    <div class="bc rv d2"><div class="bc-n">05</div><div class="bc-ico"><i class="fas fa-fingerprint"></i></div><h3 class="bc-t">Só Seu</h3><p class="bc-p">Seu protocolo não existe em nenhuma outra clínica do mundo. Foi construído exclusivamente para a sua biologia e objetivos.</p><i class="fas fa-arrow-up-right bc-arr"></i></div>
+    <div class="bc rv d3"><div class="bc-n">06</div><div class="bc-ico"><i class="fas fa-heart-pulse"></i></div><h3 class="bc-t">Saúde + Beleza</h3><p class="bc-p">Quando o organismo está em equilíbrio, a beleza externa não é esforço — é consequência natural e visível.</p><i class="fas fa-arrow-up-right bc-arr"></i></div>
+  </div>
+</section>
+
+<!-- JOURNEY -->
+<section class="journey" id="historia">
+  <div class="over rv">Sua jornada</div>
+  <h2 class="sec-h rv">Do primeiro contato à <em>versão que você merecia</em></h2>
+  <div class="j-grid">
+    <div class="tl rl">
+      <div class="tl-i"><div class="tl-lft"><div class="tl-dot"><i class="fas fa-clipboard-list"></i></div><div class="tl-ln"></div></div><div class="tl-body"><div class="tl-step">Etapa 01</div><h3 class="tl-ti">Escuta e Mapeamento</h3><p class="tl-tx">Uma conversa real sobre você — seu histórico, seus bloqueios, o que já tentou e não funcionou. Aqui começa a diferença.</p></div></div>
+      <div class="tl-i"><div class="tl-lft"><div class="tl-dot"><i class="fas fa-flask"></i></div><div class="tl-ln"></div></div><div class="tl-body"><div class="tl-step">Etapa 02</div><h3 class="tl-ti">Protocolo Desenhado</h3><p class="tl-tx">Com base na sua avaliação, a Dra. Cris cria seu plano exclusivo — combinação de técnicas calibrada para o seu corpo.</p></div></div>
+      <div class="tl-i"><div class="tl-lft"><div class="tl-dot"><i class="fas fa-hand-sparkles"></i></div><div class="tl-ln"></div></div><div class="tl-body"><div class="tl-step">Etapa 03</div><h3 class="tl-ti">Sessões com Evolução</h3><p class="tl-tx">Cada sessão é uma evolução. Medições, ajustes, monitoramento — você vê a transformação acontecer, número a número.</p></div></div>
+      <div class="tl-i"><div class="tl-lft"><div class="tl-dot"><i class="fas fa-crown"></i></div><div class="tl-ln"></div></div><div class="tl-body"><div class="tl-step">Etapa 04</div><h3 class="tl-ti">Manutenção e Evolução</h3><p class="tl-tx">Os resultados não param quando as sessões acabam. Um plano de manutenção garante que você continue evoluindo.</p></div></div>
+    </div>
+    <div class="j-right rr">
+      <div class="j-sticky">
+        <div class="quote-block">
+          <p class="quote-t">"Em apenas uma sessão eliminei 12 cm. Saí de lá outra pessoa. Super indico — ela entende o seu corpo de um jeito que ninguém mais entende."</p>
+          <span class="quote-a">— Juliana N. Andrade · Paciente verificada ✓</span>
+        </div>
+        <div class="mini-grid">
+          <div class="mg-item"><div class="mg-n">-12cm</div><div class="mg-l">Em uma única sessão</div></div>
+          <div class="mg-item"><div class="mg-n">★ 5.0</div><div class="mg-l">Avaliação no Google</div></div>
+          <div class="mg-item"><div class="mg-n">+10k</div><div class="mg-l">Pacientes atendidas</div></div>
+          <div class="mg-item"><div class="mg-n">100%</div><div class="mg-l">Protocolos únicos</div></div>
+        </div>
+        <a href="https://wa.me/5511942305469?text=Olá%20Dra.%20Cris!%20Quero%20iniciar%20minha%20jornada%20no%20Método%20SCULP!" class="btn-g" target="_blank" style="display:inline-flex"><span>Iniciar minha jornada</span><i class="fab fa-whatsapp"></i></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROOF -->
+<section class="proof">
+  <div class="proof-in">
+    <div class="over rv">Pacientes reais</div>
+    <h2 class="sec-h rv">Quem viveu, <em>não esquece</em></h2>
+    <div class="proof-grid">
+      <div class="pc rv d1"><div class="pc-stars">★★★★★</div><p class="pc-t">"Fiz minha primeira sessão e saí mais leve em todos os sentidos. Não só no corpo — a leveza é interna também. Uma experiência que transforma."</p><div class="pc-auth"><div class="pc-av">F</div><div><div class="pc-name">Fernanda Matos</div><div class="pc-det">Método SCULP · Google ✓</div></div></div></div>
+      <div class="pc rv d2"><div class="pc-stars">★★★★★</div><p class="pc-t">"Em apenas uma sessão eliminei 12 cm. Saí de lá outra pessoa. A Dra. Cris tem um olhar clínico impressionante — ela entende o seu corpo."</p><div class="pc-auth"><div class="pc-av">J</div><div><div class="pc-name">Juliana N. Andrade</div><div class="pc-det">Método SCULP · Google ✓</div></div></div></div>
+      <div class="pc rv d3"><div class="pc-stars">★★★★★</div><p class="pc-t">"Protocolo exclusivo pra mim, espaço maravilhoso, resultados incríveis. Em uma sessão já vi diferença nas estrias. Indico para todas!"</p><div class="pc-auth"><div class="pc-av">P</div><div><div class="pc-name">Pamela Barbosa</div><div class="pc-det">Método SCULP · Google ✓</div></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- URGENCY -->
+<div class="urg">
+  <div class="urg-in">
+    <div class="rl">
+      <div class="urg-tag"><div class="urg-pulse"></div>Agenda com alta procura</div>
+      <h2 class="urg-h">As vagas para avaliação inicial <em>são limitadas por semana.</em></h2>
+    </div>
+    <div class="rr" style="display:flex;align-items:center;gap:28px;flex-wrap:wrap">
+      <div><div class="urg-slots-n">3</div><div class="urg-slots-l">Vagas esta semana</div></div>
+      <a href="https://wa.me/5511942305469?text=Olá%20Dra.%20Cris!%20Quero%20garantir%20minha%20vaga%20no%20Método%20SCULP!" class="btn-g" target="_blank"><span>Garantir minha vaga agora</span><i class="fab fa-whatsapp"></i></a>
+    </div>
+  </div>
+</div>
+
+<!-- FINAL CTA -->
+<section class="cta-fin">
+  <div class="cta-bg"></div>
+  <div class="cta-ov"></div>
+  <div class="cta-c rv">
+    <span class="cta-ey">O próximo passo é seu</span>
+    <h2 class="cta-h">Pronta para a sua<span class="cta-hi">transformação real?</span></h2>
+    <p class="cta-sub">Uma avaliação com a Dra. Cris Mota é o que separa você de quem você pode se tornar. Não deixe para amanhã o que pode mudar sua vida hoje.</p>
+    <div class="cta-grp">
+      <a href="https://wa.me/5511942305469?text=Olá%20Dra.%20Cris!%20Quero%20agendar%20minha%20avaliação%20do%20Método%20SCULP!" class="btn-g" target="_blank"><span>Agendar avaliação agora</span><i class="fab fa-whatsapp"></i></a>
+      <a href="index.html" class="btn-txt">Ver outros tratamentos <i class="fas fa-arrow-right"></i></a>
+    </div>
+    <p class="cta-note"><i class="fas fa-shield-alt"></i>Avaliação personalizada &nbsp;·&nbsp; Sem compromisso &nbsp;·&nbsp; Sigilo total</p>
+  </div>
+</section>
+
+<footer class="pf">
+  <div class="pf-logo">CRIS MOTA</div>
+  <nav class="pf-nav"><a href="index.html">Início</a><a href="termoterapia.html">Termoterapia</a><a href="endermoterapia.html">Endermoterapia</a><a href="https://wa.me/5511942305469" target="_blank">WhatsApp</a></nav>
+</footer>
+
+<script>
+/* CURSOR */
+const cd=document.getElementById('cd'),cr=document.getElementById('cr');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cd.style.left=mx+'px';cd.style.top=my+'px'});
+(function loop(){rx+=(mx-rx)*.1;ry+=(my-ry)*.1;cr.style.left=rx+'px';cr.style.top=ry+'px';requestAnimationFrame(loop)})();
+
+/* PROGRESS */
+window.addEventListener('scroll',()=>{const s=document.documentElement;document.getElementById('prog').style.width=(s.scrollTop/(s.scrollHeight-s.clientHeight)*100)+'%'});
+
+/* PARTICLES */
+const pc=document.getElementById('ptc');
+for(let i=0;i<20;i++){const p=document.createElement('div');p.className='p';const sz=Math.random()*2.5+.8;p.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}%;animation-duration:${9+Math.random()*14}s;animation-delay:${Math.random()*12}s;opacity:0`;pc.appendChild(p)}
+
+/* REVEAL */
+const obs=new IntersectionObserver(e=>e.forEach(el=>{if(el.isIntersecting)el.target.classList.add('on')}),{threshold:.07});
+document.querySelectorAll('.rv,.rl,.rr').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>
