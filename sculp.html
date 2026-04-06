@@ -299,6 +299,36 @@ body:has(a:hover) .cur-r{width:56px;height:56px;border-color:rgba(201,169,110,.7
   .pf-nav a{font-size:9px}
   .pf-logo{font-size:15px}
 }
+
+  /* STORY — imagem centralizada no mobile */
+@media(max-width:600px){
+  .story{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 56px 20px;
+    gap: 32px;
+  }
+  .story-vis{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+  }
+  .story-vis img{
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    object-fit: cover;
+    object-position: center top;
+  }
+  .s-acc, .s-badge{ display: none; }
+  .story-h{ font-size: clamp(22px,7vw,34px); }
+  .story-p{ font-size: 13px; }
+}
 </style>
 </head>
 <body>
